@@ -298,37 +298,45 @@ import { Button, Card, Col, Input, message, Row, Typography } from "antd";
 import React, { useState, useEffect } from "react";
 import { Container, Table } from "react-bootstrap";
 import { fireStore } from "../../Config/firebase";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
-import "./Style.css"; // Import custom styles
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import "./Style.css";
 
 const TrackShipment = () => {
     const [deliveries, setDeliveries] = useState([]);
     const [riders, setRiders] = useState([]);
-    const [shipper, setShipper] = useState([]); // Fixed useState for shipper
+    const [shipper, setShipper] = useState([]);
     const { Title } = Typography;
     const [trackCN, setTrackCN] = useState('');
     const [trackResult, setTrackResult] = useState(null);
-
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = () => {
             try {
-                const deliveriesSnapshot = await getDocs(query(collection(fireStore, "deliveries")));
-                const deliveriesList = deliveriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setDeliveries(deliveriesList);
+                const deliveriesUnsub = onSnapshot(collection(fireStore, "deliveries"), (snapshot) => {
+                    const deliveriesList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setDeliveries(deliveriesList);
+                });
+                const ridersUnsub = onSnapshot(collection(fireStore, "riders"), (snapshot) => {
+                    const ridersList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setRiders(ridersList);
+                });
+                const shipperUnsub = onSnapshot(collection(fireStore, "shipper"), (snapshot) => {
+                    const shipperList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setShipper(shipperList);
+                });
+                return () => {
+                    deliveriesUnsub();
+                    ridersUnsub();
+                    shipperUnsub();
+                };
 
-                const ridersSnapshot = await getDocs(query(collection(fireStore, "riders")));
-                const ridersList = ridersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setRiders(ridersList);
-
-                const shipperSnapshot = await getDocs(query(collection(fireStore, "shipper")));
-                const shipperList = shipperSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setShipper(shipperList); // Correctly setting shipper data
             } catch (error) {
                 message.error("Failed to fetch data from Firestore!");
             }
         };
+
         fetchData();
     }, []);
+
 
     const handleTrackCNChange = (e) => setTrackCN(e.target.value);
 
@@ -394,6 +402,7 @@ const TrackShipment = () => {
                                                 <th className="text-center">Origin</th>
                                                 <th className="text-center">Destination</th>
                                                 <th className="text-center">Consignee Name</th>
+                                                <th className="text-center">Reciver Name</th>
                                                 <th className="text-center">Rider Name</th>
                                                 <th className="text-center">Status</th>
                                                 <th className="text-center">Date</th>
@@ -404,13 +413,17 @@ const TrackShipment = () => {
                                                 <tr key={index}>
                                                     <td className="text-center">{index + 1}</td>
                                                     <td className="text-center">{shipment.cnNumber}</td>
-                                                    <td className="text-center">{shipment.name}</td>
-                                                    <td className="text-center">{shipment.origin || "N/A"}</td>
-                                                    <td className="text-center">{shipment.destination || "N/A"}</td>
-                                                    <td className="text-center">{shipment.consignee || shipment.consigneeName || "N/A"}</td>
-                                                    <td className="text-center">{shipment.riderName || "N/A"}</td>
-                                                    <td className="text-center">{shipment.status || "N/A"}</td>
-                                                    <td className="text-center">{shipment.date || "N/A"}</td>
+                                                    <td className="text-center">{shipment.name || shipment.shipperName}</td>
+                                                    <td className="text-center">{shipment.origin}</td>
+                                                    <td className="text-center">{shipment.destination}</td>
+                                                    <td className="text-center">{shipment.consignee || shipment.consigneeName}</td>
+                                                    <td className="text-center">{shipment.receiverName}</td>
+                                                    <td className="text-center">{shipment.riderName}</td>
+                                                    <td className="text-center">
+                                                        <span className={shipment.status === "Delivered" ? "text-success" : "text-danger"}>
+                                                            {shipment.status}
+                                                        </span>
+                                                    </td>                                                    <td className="text-center">{shipment.date}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -418,14 +431,15 @@ const TrackShipment = () => {
                                     <div className="mobile-table">
                                         {trackResult.map((shipment, index) => (
                                             <div key={index} className="mobile-table-row">
-                                                <p><strong>CN Number:</strong> {shipment.trackingId || shipment.cnNumber}</p>
-                                                <p><strong>Shipper:</strong> {shipment.name || "Unknown"}</p>
-                                                <p><strong>Origin:</strong> {shipment.origin || "N/A"}</p>
-                                                <p><strong>Destination:</strong> {shipment.destination || "N/A"}</p>
-                                                <p><strong>Consignee Name:</strong> {shipment.consignee || shipment.consigneeName || "N/A"}</p>
-                                                <p><strong>Rider Name:</strong> {shipment.riderName || "N/A"}</p>
-                                                <p><strong>Status:</strong> {shipment.status || "N/A"}</p>
-                                                <p><strong>Date:</strong> {shipment.date || "N/A"}</p>
+                                                <p><strong>CN Number:</strong> {shipment.cnNumber}</p>
+                                                <p><strong>Shipper:</strong> {shipment.name || shipment.shipperName}</p>
+                                                <p><strong>Origin:</strong> {shipment.origin}</p>
+                                                <p><strong>Destination:</strong> {shipment.destination}</p>
+                                                <p><strong>Consignee Name:</strong> {shipment.consignee}</p>
+                                                <p><strong>Reciver Name:</strong> {shipment.receiverName}</p>
+                                                <p><strong>Rider Name:</strong> {shipment.riderName}</p>
+                                                <p><strong>Status:</strong> {shipment.status}</p>
+                                                <p><strong>Date:</strong> {shipment.date}</p>
                                                 <hr />
                                             </div>
                                         ))}

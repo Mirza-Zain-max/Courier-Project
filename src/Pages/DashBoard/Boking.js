@@ -147,13 +147,73 @@ import { Button, Container } from "react-bootstrap";
 import { fireStore } from "../../Config/firebase"; // Import Firestore
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useAuthContext } from "../../Context/Auth";
-
+import QuotationGenerator from "./pdf-generator";
+const quotationData= {
+  "_id": "67a490d5e38080315161438f",
+  "quoteNo": "QUOT7941332470",
+  "fname": "titanium",
+  "lname": "Admin",
+  "email": "titanium.admin123@gmail.com",
+  "phone": "00000",
+  "notes": "",
+  "quote": [
+      {
+          "uniqueID": "Titanium/Concentric Reducer/Grade 2  CP/4/6.000\" x 3.000\" \r\nS40",
+          "productForm": "Concentric Reducer",
+          "grade": "Grade 2  CP",
+          "primaryDimension": "6.000\" x 3.000\" \r\nS40",
+          "primaryDimTol": "",
+          "quantity": "20",
+          "prices": {
+              "priceLabel": "20",
+              "price": "368",
+              "_id": "67a481f9ae75cbfc3d12bca8"
+          },
+          "pricesId": "67a481f9ae75cbfc3d12bc94",
+          "specifications": "Per ASTM, ANSI, and MSS SP-43 Specifications",
+          "alloyFamily": "Titanium",
+          "_id": "67a490d5e380803151614390"
+      },
+      {
+          "uniqueID": "Alloy Steel/Round Bar/4130/663/Ø 0.6875\"",
+          "productForm": "Round Bar",
+          "grade": "4130",
+          "primaryDimension": "Ø 0.6875\"",
+          "primaryDimTol": "0.002\"",
+          "lengthTolerance": "24.00\"",
+          "length": "144.00\"",
+          "quantity": "20",
+          "prices": {
+              "priceLabel": "$/lb. Sales Price for 10.01  to 20 lbs.",
+              "price": "5",
+              "_id": "67a48208ae75cbfc3d130979"
+          },
+          "pricesId": "67a48208ae75cbfc3d130972",
+          "specifications": "Cold Finish Normalized, Per AMS 6370, AMS-S-6758, ASTM A331",
+          "uom": "lb",
+          "alloyFamily": "Alloy Steel",
+          "_id": "67a490d5e380803151614391"
+      }
+  ],
+  "totalAmount": "7460.00",
+  "user": {
+      "_id": "678a5e55a8a6322819c389e4",
+      "fname": "titanium",
+      "lname": "Admin",
+      "email": "titanium.admin123@gmail.com",
+      "phone": "00000"
+  },
+  "status": "pending",
+  "createdAt": "2025-02-06T10:37:09.436Z",
+  "updatedAt": "2025-02-06T10:37:09.436Z",
+  "__v": 0
+}
 const Boking = () => {
   const { user } = useAuthContext()
   const [amount, setAmount] = useState();
   const [couriers, setCouriers] = useState([]);
   const [form, setForm] = useState({
-    cnNumber: "", date: "", name: "", trackingId: "", status: "", amount: "", consignee: "",
+    cnNumber: "", date: "", shipperName: "", trackingId: "", status: "", amount: "", consignee: "",
     consigneeAddress: "", consigneeContact: "", origin: "", destination: "",
     pieces: "", weight: "", description: ""
   });
@@ -176,32 +236,36 @@ const Boking = () => {
     }));
   };
 
-  const handleAddCourier = async () => {
+ const handleAddCourier = async () => {
     const timestamp = new Date().toISOString();
 
     const newCourier = {
       ...form,
       createdAt: timestamp,
-      status: "Booked", // Ensuring status is added to the data
-      userId: user.uid, // Optionally storing which user added the courier
+      status: "Booked", // 🔥 Change this to a string
+      userId: user.uid,
     };
+
+    console.log("Saving courier:", newCourier);
 
     try {
       await addDoc(collection(fireStore, "shipper"), newCourier);
       message.success("Courier added successfully!");
 
+      // Reset form
       setForm({
-        cnNumber: "", date: "", name: "", trackingId: "", status: "", amount: "", consignee: "",
+        cnNumber: "", date: "", shipperName: "", trackingId: "", status: "", amount: "", consignee: "",
         consigneeAddress: "", consigneeContact: "", origin: "", destination: "",
         pieces: "", weight: "", description: ""
       });
 
-      fetchCouriers();
+      fetchCouriers(); // Refresh the list
       document.querySelector(`[name="date"]`).focus(); // Reset focus to Date input
     } catch (error) {
+      console.error("Firestore Error:", error);
       message.error("Error adding courier: " + error.message);
     }
-  };
+};
 
 
 
@@ -236,12 +300,12 @@ const Boking = () => {
                     name="cnNumber"
                     value={form.cnNumber}
                     onChange={handleChange}
-                    onKeyDown={(e) => handleKeyPress(e, "name")}
+                    onKeyDown={(e) => handleKeyPress(e, "shipperName")}
                   />                </Col>
               </Row>
               <Col span={24} className="px-2 py-1">
                 <label className="mb-1 fw-bolder">Shipper:</label>
-                <Input type="text" name="name" placeholder="Add Shipment Name" value={form.name} onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "trackingId")} />
+                <Input type="text" name="shipperName" placeholder="Add Shipment Name" value={form.shipperName} onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "trackingId")} />
               </Col>
               <Col span={24} className="px-2 py-1">
                 <label className="mb-1 fw-bolder">Address:</label>
@@ -249,7 +313,7 @@ const Boking = () => {
               </Col>
               <Col span={24} className="px-2 py-1">
                 <label className="fw-bolder">Contact Number:</label>
-                <Input type="text" name="status" placeholder="Enter Contact Number" value={form.status} onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "amount")} />
+                <Input type="text" name="status" placeholder="Enter Contact Number" value={form.status} onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "consignee")} />
               </Col>
             </Card>
           </Col>
@@ -304,8 +368,10 @@ const Boking = () => {
                 </Col>
               </Row>
               <div className="text-center mt-3">
+                <Button variant="primary" >Save as PDF</Button>
                 <Button variant="primary" onClick={handleAddCourier}>Save Data</Button>
               </div>
+              <QuotationGenerator quotationData={quotationData} />
             </Card>
           </Col>
         </Row>
