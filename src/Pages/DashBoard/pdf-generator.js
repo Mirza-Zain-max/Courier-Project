@@ -1,8 +1,10 @@
 // QuotationPDF.js
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, pdf, Font, Link } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, pdf, Font, Image } from '@react-pdf/renderer';
 import { Button } from 'antd';
 import { DownloadOutlined, FileTextFilled } from '@ant-design/icons';
+import bookingImage from '../Assets/boking.jpg';
+
 Font.register({
   family: 'Arial',
   fonts: [
@@ -11,270 +13,404 @@ Font.register({
   ]
 });
 
+
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
-    flexGrow: 1,
-    paddingTop: 20,
-    paddingBottom: 120,
+    padding: 8,
+    marginTop: 10,
+    fontFamily: 'Helvetica',
+  },
+  container: {
+    border: 1,
+    borderColor: '#000000',
+    marginTop: 8
   },
   header: {
-    position: 'fixed',
-    top: 20,
-    left: 30,
-    right: 30,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
-  logoContainer: {
-    width: 220,
+    borderBottom: 1,
+    borderColor: '#000000',
+    padding: 6,
   },
   logo: {
     width: 200,
-    height: 60,
-    objectFit: 'contain',
-  },
-  companyHeader: {
-    width: '50%',
-    textAlign: 'right',
-  },
-  companyName: {
-    fontSize: 18,
-    fontFamily: 'Arial',
+    padding: 6,
+    backgroundColor: '#0066cc',
+    border: "1px solid black",
+    color: 'white',
+    textAlign: 'center',
     fontWeight: 'bold',
-  },
-  companyDetails: {
-    fontSize: 9,
-    marginBottom: 3,
   },
   title: {
-    fontSize: 18,
-    fontFamily: 'Arial',
-    fontWeight: 'bold',
-    marginBottom: 20,
+    // flex: 1,
+    // border: "1px solid black",
     textAlign: 'center',
-    textTransform: 'uppercase',
-    padding: '10px 0',
-    backgroundColor: '#f0f0f0',
+    fontSize: 8,
+    // padding: 6,
   },
-  customerInfo: {
-    marginBottom: 20,
-    border: '1px solid #bfbfbf',
-    padding: 10,
-    borderRadius: 5,
-  },
-  customerTitle: {
-    fontSize: 12,
-    fontFamily: 'Arial',
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  table: {
-    display: 'table',
-    width: 'auto',
-    marginBottom: 10,
-  },
-  tableRow: {
+  infoRow: {
     flexDirection: 'row',
+    borderBottom: 1,
+    borderColor: '#000000',
   },
-  tableHead: {
-    fontFamily: 'Arial',
-    fontWeight: 600,
-  },
-  tableCell: {
-    padding: 5,
-    fontSize: 10,
-    border: "1px solid black" ,
-  },
-  itemCol: { width: '40%' },
-  specCol: { width: '40%' },
-  qtyCol: { width: '7%' },
-  uomCol: { width: '7%' },
-  rateCol: { width: '12%' },
-  amountCol: { width: '10%' },
-  total: {
-    paddingRight: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  totalFSize: {
-    fontSize: 10,
-    fontFamily: 'Arial',
-    fontWeight: 600,
-    marginBottom: 0
-  },
-  totalBorder: {
-    borderStyle: 'solid',
-    borderWidth: 1.3,
-    borderColor: '#00000',
+  infoCol: {
+    flex: 1,
     padding: 4,
-    paddingLeft: 16,
+    borderRight: 1,
+    borderColor: '#000000',
   },
-  termsContainer: {
-    marginTop: 20,
+  infoColLast: {
+    flex: 1,
+    padding: 4,
   },
-  termsSection: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  termsTitle: {
-    fontSize: 10,
-    width: '10%',
-    fontFamily: 'Arial',
+  label: {
+    fontSize: 6,
     fontWeight: 'bold',
+    marginBottom: 4,
   },
-  termsText: {
+  value: {
+    fontSize: 7,
+  },
+  addressSection: {
+    flexDirection: 'row',
+    borderBottom: 1,
+    borderColor: '#000000',
+  },
+  addressCol: {
+    flex: 1,
+    padding: 6,
+    borderRight: 1,
+    borderColor: '#000000',
+  },
+  addressColLast: {
+    flex: 1,
+    padding: 4,
+  },
+  addressBox: {
+    border: 1,
+    borderColor: '#000000',
+    padding: 2,
+    marginTop: 4,
+  },
+  detailsRow: {
+    flexDirection: 'row',
+    borderBottom: 1,
+    borderColor: '#000000',
+  },
+  detailCol: {
+    flex: 1,
+    padding: 4,
+    borderRight: 1,
+    borderColor: '#000000',
+  },
+  detailColLast: {
+    flex: 1,
+    padding: 4,
+  },
+  remarks: {
+    padding: 4,
+  },
+  veiwTitle: {
     fontSize: 10,
-    width: '90%',
+    border: "1px solid black",
+    textAlign: "center", 
+    marginTop: 8,
+    fontWeight: "extrabold"
+  },
+  veiwText: {
+    fontSize: 8,
+    // border:"1px solid black", 
+    lineHeight: "12px",
+    padding: 3,
+    textAlign: "justify",
+  },
+  terms: {
+    fontSize: 8,
+    marginTop: 10,
     textAlign: 'justify',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 30,
-    right: 30,
-    textAlign: 'center',
-  },
-  pageNumber: {
-    position: 'absolute',
-    bottom: 30,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
-    fontSize: 10,
-    color: '#666',
-  },
-  footerLogo: {
-    width: 200,
-    height: 40,
-    marginBottom: 10,
-    alignSelf: 'center',
-  },
-  footerText: {
-    fontSize: 10,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  divider: {
-    borderBottom: '1px solid #bfbfbf',
-    marginVertical: 5,
-  },
+    // border: 1,
+    borderColor: '#000000',
+    padding: 4,
+  }
 });
 
-const Header = ({ quotationData, headerData }) => (
-  <View style={styles.header} fixed>
-      <Text style={styles.companyDetails}>{headerData.companyEmail}</Text>
-  </View>
-);
-
-const QuotationPDF = ({ quotationData, headerData }) => (
+const QuotationPDF = () => (
   <Document>
-    <Page wrap={true} size="LETTER" style={styles.page}>
-      {/* Header with Logo and Company Info */}
-      <Header quotationData={quotationData} headerData={headerData} />
-      {/* Items Table */}
-      <View style={styles.contentWrapper}>
-        <View style={styles.table}>
-          <View style={[styles.tableRow]}>
-            <View style={[styles.tableCell, styles.tableHead, styles.itemCol]}>
-              <Text>Item</Text>
-            </View>
-            <View style={[styles.tableCell, styles.tableHead, styles.specCol]}>
-              <Text>Specifications</Text>
-            </View>
-            <View style={[styles.tableCell, styles.tableHead, styles.qtyCol]}>
-              <Text>Qty</Text>
-            </View>
-            <View style={[styles.tableCell, styles.tableHead, styles.uomCol]}>
-              <Text>UOM</Text>
-            </View>
-            <View style={[styles.tableCell, styles.tableHead, styles.rateCol]}>
-              <Text>Unit Price</Text>
-            </View>
-            <View style={[styles.tableCell, styles.tableHead, styles.amountCol]}>
-              <Text>Subtotal</Text>
-            </View>
+    <Page size="A4" style={styles.page}>
+      <View>
+        <Text style={styles.title}>Blue-EX Consignment Note # 5034355907</Text>
+      </View>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.logo}>
+            <Text>Sonic Express</Text>
           </View>
-
-          {quotationData?.quote?.map((item, index) => (
-            <View key={index} style={styles.tableRow}>
-              <View style={[styles.tableCell, styles.itemCol]}>
-                <Text>{item?.alloyFamily}</Text>
-              </View>
-              <View style={[styles.tableCell, styles.specCol]}>
-                <Text>{item?.specifications}</Text>
-              </View>
-              <View style={[styles.tableCell, styles.qtyCol]}>
-                <Text>{item?.quantity}</Text>
-              </View>
-              <View style={[styles.tableCell, styles.uomCol]}>
-                <Text>{item?.uom}</Text>
-              </View>
-              <View style={[styles.tableCell, styles.rateCol]}>
-                <Text>${Number(item?.prices?.price).toFixed(2)}/ {item?.uom}</Text>
-              </View>
-              <View style={[styles.tableCell, styles.amountCol]}>
-                <Text>${(Number(item?.prices?.price) * Number(item?.quantity)).toFixed(2)}</Text>
-              </View>
-            </View>
-          ))}
+          {/* <Image src="/Assets/boking.jpg" style={{height:50 , width: 200}} /> */}
         </View>
 
-        {/* Total Section */}
-        <View style={[styles.total,]}>
-          <Text style={[styles.companyDetails, styles.totalFSize]}> Order Total: </Text>
-          <Text style={[styles.totalBorder, styles.totalFSize]} >${quotationData?.totalAmount}</Text>
+        {/* First Info Row */}
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Date:</Text>
+            <Text style={styles.value}>08/02/2025 (1819)</Text>
+          </View>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Service:</Text>
+            <Text style={styles.value}>BLUE CARGO</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Serving City</Text>
+            <Text style={styles.value}>WAH</Text>
+          </View>
         </View>
-        <View style={styles.termsContainer}>
-          <View style={styles.termsSection}>
-            <Text style={styles.termsTitle}>Prices:</Text>
-            <Text style={styles.termsText}>
-              Prices are in USD per UOM, FCA Titanium Industries warehouse facilities, including packing. Prices at time of order
-              acknowledgement apply and are subject to change. Quantity shipped tolerances are ± 10%. Titanium Industries
-              reserves the right to make any corrections to prices quoted due to new information, errors, or any other significant
-              changes. All orders are subject to a full contract review of all specifications and a 48-hour order approval process to
-              verify all details, stock availability, and terms and conditions. All orders will be acknowledged by a T.I. salesperson.
-            </Text>
-          </View>
 
-          <View style={styles.termsSection}>
-            <Text style={styles.termsTitle}>Freight:</Text>
-            <Text style={styles.termsText}>
-              All pricing is FCA T.I. Warehouse Facility. Delivery options and additional freight costs to be discussed with your T.I.
-              salesperson.
-            </Text>
+        {/* Second Info Row */}
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Origin:</Text>
+            <Text style={styles.value}>LYP</Text>
           </View>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Account:</Text>
+            <Text style={styles.value}>LYP-00951</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Destination</Text>
+            <Text style={styles.value}>ATT</Text>
+          </View>
+        </View>
 
-          <View style={styles.termsSection}>
-            <Text style={styles.termsTitle}>Lead-time:</Text>
-            <Text style={styles.termsText}>
-              The lead-time will be provided by your sales representative during the order confirmation process.
-            </Text>
+        {/* Address Section */}
+        <View style={styles.addressSection}>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Shipper</Text>
+            <View style={styles.addressBox}>
+              <Text style={styles.value}>Sonic Express</Text>
+              <Text style={styles.value}>03007644607</Text>
+              <Text style={styles.value}>sonicexpressc@gmail.com</Text>
+              <Text style={styles.value}>City-plaza-GTS-Chowk-Railway-road-Faisalabad</Text>
+            </View>
           </View>
+          <View style={styles.addressColLast}>
+            <Text style={styles.label}>Consignee</Text>
+            <View style={styles.addressBox}>
+              <Text style={styles.value}>Mr.Basit</Text>
+              <Text style={styles.value}>0318-5622187</Text>
+              <Text style={styles.value}>Mohalla Masjid Farooq Azam khaur company Tehsil pindigheb District Attock</Text>
+            </View>
+          </View>
+        </View>
 
-          <View style={styles.termsSection}>
-            <Text style={styles.termsTitle}>Payment:</Text>
-            <Text style={styles.termsText}>
-              Payment method is to be determined.
+        {/* Details Row */}
+        <View style={styles.detailsRow}>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Piece</Text>
+            <Text style={styles.value}>1</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Weight</Text>
+            <Text style={styles.value}>.9</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Cash Collect</Text>
+            <Text style={styles.value}>Rs.1000/-</Text>
+          </View>
+          <View style={styles.detailColLast}>
+            <Text style={styles.label}>Insurance</Text>
+            <Text style={styles.value}>No</Text>
+          </View>
+        </View>
+
+        {/* Remarks */}
+
+      </View>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.logo}>
+            <Text>Sonic Express</Text>
+          </View>
+          {/* <Text style={styles.title}>Blue-EX Consignment Note # 5034355907</Text> */}
+        </View>
+
+        {/* First Info Row */}
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Date:</Text>
+            <Text style={styles.value}>08/02/2025 (1819)</Text>
+          </View>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Service:</Text>
+            <Text style={styles.value}>BLUE CARGO</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Serving City</Text>
+            <Text style={styles.value}>WAH</Text>
+          </View>
+        </View>
+
+        {/* Second Info Row */}
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Origin:</Text>
+            <Text style={styles.value}>LYP</Text>
+          </View>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Account:</Text>
+            <Text style={styles.value}>LYP-00951</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Destination</Text>
+            <Text style={styles.value}>ATT</Text>
+          </View>
+        </View>
+
+        {/* Address Section */}
+        <View style={styles.addressSection}>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Shipper</Text>
+            <View style={styles.addressBox}>
+              <Text style={styles.value}>Sonic Express</Text>
+              <Text style={styles.value}>03007644607</Text>
+              <Text style={styles.value}>sonicexpressc@gmail.com</Text>
+              <Text style={styles.value}>City-plaza-GTS-Chowk-Railway-road-Faisalabad</Text>
+            </View>
+          </View>
+          <View style={styles.addressColLast}>
+            <Text style={styles.label}>Consignee</Text>
+            <View style={styles.addressBox}>
+              <Text style={styles.value}>Mr.Basit</Text>
+              <Text style={styles.value}>0318-5622187</Text>
+              <Text style={styles.value}>Mohalla Masjid Farooq Azam khaur company Tehsil pindigheb District Attock</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Details Row */}
+        <View style={styles.detailsRow}>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Piece</Text>
+            <Text style={styles.value}>1</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Weight</Text>
+            <Text style={styles.value}>.9</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Cash Collect</Text>
+            <Text style={styles.value}>Rs.1000/-</Text>
+          </View>
+          <View style={styles.detailColLast}>
+            <Text style={styles.label}>Insurance</Text>
+            <Text style={styles.value}>No</Text>
+          </View>
+        </View>
+
+        {/* Remarks */}
+
+      </View>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.logo}>
+            <Text>Sonic Express</Text>
+          </View>
+          {/* <Text style={styles.title}>Blue-EX Consignment Note # 5034355907</Text> */}
+        </View>
+
+        {/* First Info Row */}
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Date:</Text>
+            <Text style={styles.value}>08/02/2025 (1819)</Text>
+          </View>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Service:</Text>
+            <Text style={styles.value}>BLUE CARGO</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Serving City</Text>
+            <Text style={styles.value}>WAH</Text>
+          </View>
+        </View>
+
+        {/* Second Info Row */}
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Origin:</Text>
+            <Text style={styles.value}>LYP</Text>
+          </View>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Account:</Text>
+            <Text style={styles.value}>LYP-00951</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Destination</Text>
+            <Text style={styles.value}>ATT</Text>
+          </View>
+        </View>
+
+        {/* Address Section */}
+        <View style={styles.addressSection}>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Shipper</Text>
+            <View style={styles.addressBox}>
+              <Text style={styles.value}>Sonic Express</Text>
+              <Text style={styles.value}>03007644607</Text>
+              <Text style={styles.value}>sonicexpressc@gmail.com</Text>
+              <Text style={styles.value}>City-plaza-GTS-Chowk-Railway-road-Faisalabad</Text>
+            </View>
+          </View>
+          <View style={styles.addressColLast}>
+            <Text style={styles.label}>Consignee</Text>
+            <View style={styles.addressBox}>
+              <Text style={styles.value}>Mr.Basit</Text>
+              <Text style={styles.value}>0318-5622187</Text>
+              <Text style={styles.value}>Mohalla Masjid Farooq Azam khaur company Tehsil pindigheb District Attock</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Details Row */}
+        <View style={styles.detailsRow}>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Piece</Text>
+            <Text style={styles.value}>1</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Weight</Text>
+            <Text style={styles.value}>.9</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Cash Collect</Text>
+            <Text style={styles.value}>Rs.1000/-</Text>
+          </View>
+          <View style={styles.detailColLast}>
+            <Text style={styles.label}>Insurance</Text>
+            <Text style={styles.value}>No</Text>
+          </View>
+        </View>
+
+        <View >
+          <Text style={styles.veiwTitle}>TERMS AND CONDITION</Text>
+          <View style={styles.terms}>
+            <Text>
+              1. When ordering Sonic Express (A UNS Ltd. Company) services you, as 'Shipper', are agreeing, on your behalf and on behalf of anyone else with an interest in the Shipment that the Terms and Conditions shall apply from
+              the time that Sonic Express accepts the Shipment unless otherwise agreed in writing by an authorized officer of Sonic Express. A 'waybill' shall include any label produced by Sonic Express's automated systems, air waybill, or consignment
+              note and shall incorporate these Every Shipment is transported on a limited liability basis as provided herein 'Sonic Express' means any member of the UNS Network. This is the ephemeral version of 'Standard Terms &
+              Conditions of Carriage'. The detailed version of the same is available on www.blue-ex.com or for physical copy please contact your concern sales representative. {"\n"}
+              2. Unacceptable Shipments: Shipper agrees that its Shipment is acceptable for transportation and is deemed unacceptable if:{"\n"}
+              • It is classified as hazardous material, dangerous goods, prohibited or restricted articles by IATA (International Air Transport Association), ICAO (International Civil Aviation Organization), any applicable government
+              department or other relevant organization;{"\n"}
+              • No customs declaration is made when required by applicable customs regulations; or {"\n"}
+              • Sonic Express decides it cannot transport an item safely or legally (such items include but are not limited to: animals, bullion, currency, bearer form negotiable instruments, precious metals and stones, firearms, parts
+              thereof and ammunition, human remains, pornography and illegal narcotics/drugs).{"\n"}
+              3. Deliveries & Un-deliverables: Shipments cannot be delivered to PO boxes or postal codes. Shipments are delivered to the Receiver's address given by Shipper (which in the case of mail services shall be deemed to
+              be the first receiving postal service) but not necessarily to the named Receiver personally. {"\n"}
+              4. Inspection & Liability: Sonic Express has the right to open and inspect a Shipment without prior notice to Shipper. Sonic Express liability for loss, pilferage, damage or delay of shipments is limited to Rs.100/= (Rupees One
+              Hundred only) per domestic consignment and Rs. 1,500/= (Rupees Fifteen Hundred only) per international consignment. No claim will be entertained by Sonic Express exceeding these amounts.
             </Text>
           </View>
-          <View style={styles.termsSection}>
-            <Text style={styles.termsTitle}>Terms:</Text>
-            <Link src='https://titanium.com/titanium-about-us/terms-and-conditions-of-sale-and-delivery' style={[styles.termsText, { textDecoration: 'none', color: '#000' }]}>
-              https://titanium.com/titanium-about-us/terms-and-conditions-of-sale-and-delivery
-            </Link>
-          </View>
-          <Text style={[styles.termsText, { marginBottom: 5 }]}>
-          TERMS AND CONDITION
-          </Text>
-          <Text style={styles.termsText}>
-            We appreciate your business and look forward to receiving your order
-          </Text>
         </View>
       </View>
     </Page>
@@ -284,7 +420,7 @@ const QuotationPDF = ({ quotationData, headerData }) => (
 // Component to handle PDF generation and download
 const QuotationGenerator = ({ quotationData }) => {
   const headerData = {
-    companyLogo: '/assets/logo512.png', // Replace with your logo path
+    companyLogo: '/assets/booking.png', // Replace with your logo path
     companyName: "Your Company Name",
     companyAddress: "18 Green Pond Rd, Rockaway, NJ 07866 USA",
     companyPhone: "+1 888-482-6486",
@@ -318,7 +454,7 @@ const QuotationGenerator = ({ quotationData }) => {
         }}>
         <FileTextFilled size={20} />
       </Button>
-      <Button onClick={generatePDF}> <DownloadOutlined/> </Button>
+      <Button onClick={generatePDF}> <DownloadOutlined /> </Button>
     </div>
   );
 };

@@ -393,7 +393,7 @@ const TrackShipment = () => {
 
                             {trackResult ? (
                                 <div className="table-container">
-                                    <Table border="2" bordered className="desktop-table">
+                                    <Table responsive border="2" bordered className="desktop-table">
                                         <thead>
                                             <tr>
                                                 <th className="text-center">Index</th>
