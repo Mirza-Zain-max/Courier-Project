@@ -336,31 +336,21 @@ const TrackShipment = () => {
 
         fetchData();
     }, []);
+    const getStatusClass = (status) => {
+        switch (status) {
+            case "Delivered":
+                return "text-success";
+            case "On Route":
+                return "text-primary";
+            case "Booked":
+                return "text-danger";
+            default:
+                return "text-warning";
+        }
+    };
 
 
     const handleTrackCNChange = (e) => setTrackCN(e.target.value);
-
-    const trackShipment = () => {
-        if (!trackCN.trim()) {
-            message.warning("Please enter a CN Number.");
-            return;
-        }
-
-        const deliveryResults = deliveries.filter(delivery => delivery.cnNumber === trackCN.trim());
-        const shipperResults = shipper.filter(ship => ship.cnNumber === trackCN.trim());
-        if (deliveryResults.length > 0 || shipperResults.length > 0) {
-            const combinedResults = [...deliveryResults, ...shipperResults].map(result => {
-                const rider = riders.find(r => r.id === result.riderId);
-                return { ...result, riderName: rider ? rider.name : "Unknown" };
-            });
-
-            setTrackResult(combinedResults);
-            message.success(`${combinedResults.length} records found!`);
-        } else {
-            setTrackResult(null);
-            message.error("Not found with this CN Number.");
-        }
-    };
 
     const saveTrackingData = async () => {
         if (!trackResult) {
@@ -374,6 +364,35 @@ const TrackShipment = () => {
             message.error("Failed to save tracking data!");
         }
     };
+    const trackShipment = () => {
+        if (!trackCN.trim()) {
+            message.warning("Please enter a CN Number.");
+            return;
+        }
+
+        const deliveryResult = deliveries.find(delivery => delivery.cnNumber === trackCN.trim());
+        const shipperResult = shipper.find(ship => ship.cnNumber === trackCN.trim());
+
+        if (deliveryResult || shipperResult) {
+            const statusList = [];
+            if (shipperResult?.status) statusList.push(shipperResult.status);
+            if (deliveryResult?.status) statusList.push(deliveryResult.status);
+            const combinedResult = {
+                ...(shipperResult || {}),
+                ...(deliveryResult || {}),
+                status: statusList.length > 0 ? statusList.join(" → ") : "Status not available"
+            };
+
+            setTrackResult([combinedResult]);
+            message.success("Record found!");
+        } else {
+            setTrackResult(null);
+            message.error("Not found with this CN Number.");
+        }
+    };
+
+
+
 
     return (
         <main className="d-flex justify-content-center align-items-center auth">
@@ -420,10 +439,12 @@ const TrackShipment = () => {
                                                     <td className="text-center">{shipment.receiverName}</td>
                                                     <td className="text-center">{shipment.riderName}</td>
                                                     <td className="text-center">
-                                                        <span className={shipment.status === "Delivered" ? "text-success" : "text-danger"}>
+                                                        <span className={getStatusClass(shipment.status)}>
                                                             {shipment.status}
                                                         </span>
-                                                    </td>                                                    <td className="text-center">{shipment.date}</td>
+
+                                                    </td>
+                                                    <td className="text-center">{shipment.date}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -438,7 +459,9 @@ const TrackShipment = () => {
                                                 <p><strong>Consignee Name:</strong> {shipment.consignee}</p>
                                                 <p><strong>Reciver Name:</strong> {shipment.receiverName}</p>
                                                 <p><strong>Rider Name:</strong> {shipment.riderName}</p>
-                                                <p><strong>Status:</strong> {shipment.status}</p>
+                                                <p><strong>Status:</strong> <span className={getStatusClass(shipment.status)}>
+                                                    {shipment.status}
+                                                </span></p>
                                                 <p><strong>Date:</strong> {shipment.date}</p>
                                                 <hr />
                                             </div>
