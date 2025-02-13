@@ -2,6 +2,7 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, pdf, Font, Image } from '@react-pdf/renderer';
 import { Button } from 'antd';
+import { EyeOutlined} from '@ant-design/icons';
 // import { FileTextFilled } from '@ant-design/icons';
 Font.register({
   family: 'Arial',
@@ -11,27 +12,28 @@ Font.register({
   ]
 });
 const styles = StyleSheet.create({
-  page: { padding: 15, marginTop: 8, fontFamily: 'Helvetica' },
+  page: { paddingHorizontal: "10px", paddingTop: 8, marginTop: "8px", fontFamily: 'Helvetica' },
   container: { border: 1, borderColor: '#000000', marginTop: 8 },
   header: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000', padding: 4 },
-  title: { textAlign: 'center', fontSize: 8, fontFamily: 'Arial', fontWeight: "bold" },
+  title: { textAlign: 'center', fontSize: 9, fontFamily: 'Arial', fontWeight: "bold" },
   infoRow: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   infoCol: { flex: 1, padding: 4, borderRight: 1, borderColor: '#000000' },
   infoColLast: { flex: 1, padding: 4 },
-  label: { fontSize: 8, fontFamily: 'Arial', fontWeight: "bold", marginBottom: 4 },
-  value: { fontSize: 8, flexDirection: "column" },
+  label: { fontSize: 9, fontFamily: 'Arial', fontWeight: "bold", marginBottom: 4 },
+  value: { fontSize: 9, flexDirection: "column" },
   addressSection: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   addressCol: { flex: 1, padding: 6, borderRight: 1, borderColor: '#000000' },
+  addressCALL: { alignItems: "flex-end", fontWeight: "bold" },
   addressColLast: { flex: 1, padding: 4 },
   addressBox: { border: 1, borderColor: '#000000', padding: 2, marginTop: 4 },
   detailsRow: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   detailCol: { flex: 1, padding: 3, borderRight: 1, borderColor: '#000000' },
   detailColLast: { flex: 1, padding: 4 },
   remarks: { padding: 4 },
-  veiwTitle: { fontSize: 10, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold", marginTop: "20px" },
-  veiwTitl: { fontSize: 10, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold" },
-  veiwText: { fontSize: 8, lineHeight: "12px", padding: 3, textAlign: "justify", border: "1px solid black" },
-  terms: { fontSize: 8, textAlign: 'justify', borderColor: '#000000', padding: 4 }
+  veiwTitle: { fontSize: 11, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold", },
+  veiwTitl: { fontSize: 11, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold" },
+  veiwText: { fontSize: 9, lineHeight: "12px", padding: 3, textAlign: "justify", border: "1px solid black" },
+  terms: { fontSize: 9, textAlign: 'justify', borderColor: '#000000', padding: 4 }
 });
 
 const QuotationPDF = ({ form }) => (
@@ -41,7 +43,7 @@ const QuotationPDF = ({ form }) => (
         <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
+            <Image src="Assets/logo1.png" style={{ height: 45, width: 60 }} />
           </View>
           <View style={styles.infoColLast}>
             <Text style={styles.label}>Booking Date:</Text>
@@ -63,16 +65,83 @@ const QuotationPDF = ({ form }) => (
             <Text style={styles.label}>Shipper:</Text>
             <View>
               <Text style={styles.value}>{form.shipperName}</Text>
-              <Text style={styles.value}>{form.contact}</Text>
               <Text style={styles.value}>{form.trackingId}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.contact}</Text>
             </View>
           </View>
           <View style={styles.addressCol}>
             <Text style={styles.label}>Consignee:</Text>
             <View>
               <Text style={styles.value}>{form.consignee}</Text>
-              <Text style={styles.value}>{form.consigneeContact}</Text>
               <Text style={styles.value}>{form.consigneeAddress}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.consigneeContact}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.detailsRow}>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Piece:</Text>
+            <Text style={styles.value}>{form.pieces}</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Weight:</Text>
+            <Text style={styles.value}>{form.weight}</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Description</Text>
+            <Text style={styles.value}>{form.description}</Text>
+          </View>
+          <View style={styles.detailColLast}>
+            <Text style={styles.label}>Cash Collect:</Text>
+            <Text style={styles.value}>Rs.{form.amount}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Image src="Assets/logo1.png" style={{ height: 45, width: 60 }} />
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Booking Date:</Text>
+            <Text style={styles.value}>{form.date}</Text>
+          </View>
+        </View>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Origin:</Text>
+            <Text style={styles.value}>{form.origin}</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Destination:</Text>
+            <Text style={styles.value}>{form.destination}</Text>
+          </View>
+        </View>
+        {/* Address Section */}
+        <View style={styles.addressSection}>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Shipper:</Text>
+            <View>
+              <Text style={styles.value}>{form.shipperName}</Text>
+              <Text style={styles.value}>{form.trackingId}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.contact}</Text>
+            </View>
+          </View>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Consignee:</Text>
+            <View>
+              <Text style={styles.value}>{form.consignee}</Text>
+              <Text style={styles.value}>{form.consigneeAddress}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.consigneeContact}</Text>
             </View>
           </View>
         </View>
@@ -99,9 +168,10 @@ const QuotationPDF = ({ form }) => (
       </View>
       <View style={styles.container}>
         {/* Header */}
+        <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
+            <Image src="Assets/logo1.png" style={{ height: 45, width: 60 }} />
           </View>
           <View style={styles.infoColLast}>
             <Text style={styles.label}>Booking Date:</Text>
@@ -123,76 +193,21 @@ const QuotationPDF = ({ form }) => (
           <View style={styles.addressCol}>
             <Text style={styles.label}>Shipper:</Text>
             <View>
-              <Text style={styles.value}>{form.contact}</Text>
+              <Text style={styles.value}>{form.shipperName}</Text>
               <Text style={styles.value}>{form.trackingId}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.contact}</Text>
             </View>
           </View>
           <View style={styles.addressCol}>
             <Text style={styles.label}>Consignee:</Text>
             <View>
-              <Text style={styles.value}>{form.consigneeContact}</Text>
               <Text style={styles.value}>{form.consignee}</Text>
               <Text style={styles.value}>{form.consigneeAddress}</Text>
             </View>
-          </View>
-        </View>
-        {/* Details Row */}
-        <View style={styles.detailsRow}>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Piece:</Text>
-            <Text style={styles.value}>{form.pieces}</Text>
-          </View>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Weight:</Text>
-            <Text style={styles.value}>{form.weight}</Text>
-          </View>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Description</Text>
-            <Text style={styles.value}>{form.description}</Text>
-          </View>
-          <View style={styles.detailColLast}>
-            <Text style={styles.label}>Cash Collect:</Text>
-            <Text style={styles.value}>Rs.{form.amount}</Text>
-          </View>
-        </View>
-        {/* Remarks */}
-      </View>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.infoRow}>
-          <View style={styles.infoCol}>
-            <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
-          </View>
-          <View style={styles.infoColLast}>
-            <Text style={styles.label}>Booking Date:</Text>
-            <Text style={styles.value}>{form.date}</Text>
-          </View>
-        </View>
-        <View style={styles.infoRow}>
-          <View style={styles.infoCol}>
-            <Text style={styles.label}>Origin:</Text>
-            <Text style={styles.value}>{form.origin}</Text>
-          </View>
-          <View style={styles.infoColLast}>
-            <Text style={styles.label}>Destination:</Text>
-            <Text style={styles.value}>{form.destination}</Text>
-          </View>
-        </View>
-        {/* Address Section */}
-        <View style={styles.addressSection}>
-          <View style={styles.addressCol}>
-            <Text style={styles.label}>Shipper:</Text>
-            <View>
-              <Text style={styles.value}>{form.contact}</Text>
-              <Text style={styles.value}>{form.trackingId}</Text>
-            </View>
-          </View>
-          <View style={styles.addressCol}>
-            <Text style={styles.label}>Consignee:</Text>
-            <View>
+            <View style={styles.addressCALL}>
               <Text style={styles.value}>{form.consigneeContact}</Text>
-              <Text style={styles.value}>{form.consignee}</Text>
-              <Text style={styles.value}>{form.consigneeAddress}</Text>
             </View>
           </View>
         </View>
@@ -240,14 +255,8 @@ const QuotationPDF = ({ form }) => (
 );
 
 // Component to handle PDF generation and download
-const QuotationGenerator = ({ form }) => {
-  const headerData = {
-    // companyLogo: '../../../public/Assets/boking.jpg', // Replace with your logo path
-    companyName: "Your Company Name",
-    companyAddress: "18 Green Pond Rd, Rockaway, NJ 07866 USA",
-    companyPhone: "+1 888-482-6486",
-    companyEmail: "sales@titanium.com",
-  };
+const QuotationGenerator = ({ form, handleAddCourier }) => {
+
 
   const generatePDF = async () => {
     const doc = <QuotationPDF form={form} />;
@@ -260,11 +269,12 @@ const QuotationGenerator = ({ form }) => {
     a.click(); // Trigger the download
     document.body.removeChild(a); // Remove the element after download
     URL.revokeObjectURL(url); // Clean up the URL object
+    handleAddCourier()
   };
   return (
     <div>
       <Button
-        className='p-1'
+        className='p-3 bg-info '
         onClick={() => {
           const pdfBlob = pdf(<QuotationPDF form={form} />).toBlob();
           pdfBlob.then(blob => {
@@ -272,9 +282,9 @@ const QuotationGenerator = ({ form }) => {
             window.open(url, '_blank');
           });
         }}>
-        Veiw
+        <EyeOutlined />
       </Button>
-      <Button onClick={generatePDF} className="w-75 mt-2 p-3"> Save as Print </Button>
+      <Button onClick={generatePDF} className="w-75 mt-2 p-3 text-light bg-secondary"> Save & Save as Print </Button>
     </div>
   );
 };
