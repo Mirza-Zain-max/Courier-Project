@@ -351,7 +351,7 @@ const Boking = () => {
                   <Button variant="primary" className="w-75 mt-2 p-1 fs-6" onClick={handleAddCourier}>Save Data</Button>
                 </Col>
                 <Col span={10}>
-                  <QuotationGenerator form={form} />
+                  <QuotationGenerator form={form} onClick={handleAddCourier} />
                 </Col>
               </Row>
             </Card>

@@ -2,8 +2,7 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, pdf, Font, Image } from '@react-pdf/renderer';
 import { Button } from 'antd';
-import { FileTextFilled } from '@ant-design/icons';
-
+// import { FileTextFilled } from '@ant-design/icons';
 Font.register({
   family: 'Arial',
   fonts: [
@@ -11,8 +10,6 @@ Font.register({
     { src: `${window.location.origin}/arial-font/arial.ttf`, fontWeight: 'normal' },
   ]
 });
-
-
 const styles = StyleSheet.create({
   page: { padding: 15, marginTop: 8, fontFamily: 'Helvetica' },
   container: { border: 1, borderColor: '#000000', marginTop: 8 },
@@ -31,17 +28,74 @@ const styles = StyleSheet.create({
   detailCol: { flex: 1, padding: 3, borderRight: 1, borderColor: '#000000' },
   detailColLast: { flex: 1, padding: 4 },
   remarks: { padding: 4 },
-  veiwTitle: { fontSize: 10, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold", marginTop: 4 },
-  veiwText: { fontSize: 8, lineHeight: "12px", padding: 3, textAlign: "justify", border:"1px solid black"
-   },
+  veiwTitle: { fontSize: 10, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold", marginTop: "20px" },
+  veiwTitl: { fontSize: 10, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold" },
+  veiwText: { fontSize: 8, lineHeight: "12px", padding: 3, textAlign: "justify", border: "1px solid black" },
   terms: { fontSize: 8, textAlign: 'justify', borderColor: '#000000', padding: 4 }
 });
 
 const QuotationPDF = ({ form }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <View>
-        <Text style={styles.title}>Sonic Express Consignment Note # 5034355907</Text>
+      <View style={styles.container}>
+        <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Booking Date:</Text>
+            <Text style={styles.value}>{form.date}</Text>
+          </View>
+        </View>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Origin:</Text>
+            <Text style={styles.value}>{form.origin}</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Destination:</Text>
+            <Text style={styles.value}>{form.destination}</Text>
+          </View>
+        </View>
+        <View style={styles.addressSection}>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Shipper:</Text>
+            <View>
+              <Text style={styles.value}>{form.shipperName}</Text>
+              <Text style={styles.value}>{form.contact}</Text>
+              <Text style={styles.value}>{form.trackingId}</Text>
+            </View>
+          </View>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Consignee:</Text>
+            <View>
+              <Text style={styles.value}>{form.consignee}</Text>
+              <Text style={styles.value}>{form.consigneeContact}</Text>
+              <Text style={styles.value}>{form.consigneeAddress}</Text>
+            </View>
+          </View>
+        </View>
+        {/* Details Row */}
+        <View style={styles.detailsRow}>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Piece:</Text>
+            <Text style={styles.value}>{form.pieces}</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Weight:</Text>
+            <Text style={styles.value}>{form.weight}</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Description</Text>
+            <Text style={styles.value}>{form.description}</Text>
+          </View>
+          <View style={styles.detailColLast}>
+            <Text style={styles.label}>Cash Collect:</Text>
+            <Text style={styles.value}>Rs.{form.amount}</Text>
+          </View>
+        </View>
+        {/* Remarks */}
       </View>
       <View style={styles.container}>
         {/* Header */}
@@ -50,7 +104,7 @@ const QuotationPDF = ({ form }) => (
             <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
           </View>
           <View style={styles.infoColLast}>
-            <Text style={styles.label}>Date:</Text>
+            <Text style={styles.label}>Booking Date:</Text>
             <Text style={styles.value}>{form.date}</Text>
           </View>
         </View>
@@ -71,7 +125,6 @@ const QuotationPDF = ({ form }) => (
             <View>
               <Text style={styles.value}>{form.contact}</Text>
               <Text style={styles.value}>{form.trackingId}</Text>
-              <Text style={styles.value}>sonicexpressc@gmail.com</Text>
             </View>
           </View>
           <View style={styles.addressCol}>
@@ -111,7 +164,7 @@ const QuotationPDF = ({ form }) => (
             <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
           </View>
           <View style={styles.infoColLast}>
-            <Text style={styles.label}>Date:</Text>
+            <Text style={styles.label}>Booking Date:</Text>
             <Text style={styles.value}>{form.date}</Text>
           </View>
         </View>
@@ -132,7 +185,6 @@ const QuotationPDF = ({ form }) => (
             <View>
               <Text style={styles.value}>{form.contact}</Text>
               <Text style={styles.value}>{form.trackingId}</Text>
-              <Text style={styles.value}>sonicexpressc@gmail.com</Text>
             </View>
           </View>
           <View style={styles.addressCol}>
@@ -165,69 +217,8 @@ const QuotationPDF = ({ form }) => (
         </View>
         {/* Remarks */}
       </View>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.infoRow}>
-          <View style={styles.infoCol}>
-            <Image src="Assets/logo.png" style={{ height: 45, width: 60 }} />
-          </View>
-          <View style={styles.infoColLast}>
-            <Text style={styles.label}>Date:</Text>
-            <Text style={styles.value}>{form.date}</Text>
-          </View>
-        </View>
-        <View style={styles.infoRow}>
-          <View style={styles.infoCol}>
-            <Text style={styles.label}>Origin:</Text>
-            <Text style={styles.value}>{form.origin}</Text>
-          </View>
-          <View style={styles.infoColLast}>
-            <Text style={styles.label}>Destination:</Text>
-            <Text style={styles.value}>{form.destination}</Text>
-          </View>
-        </View>
-        {/* Address Section */}
-        <View style={styles.addressSection}>
-          <View style={styles.addressCol}>
-            <Text style={styles.label}>Shipper:</Text>
-            <View>
-              <Text style={styles.value}>{form.contact}</Text>
-              <Text style={styles.value}>{form.trackingId}</Text>
-              <Text style={styles.value}>sonicexpressc@gmail.com</Text>
-            </View>
-          </View>
-          <View style={styles.addressCol}>
-            <Text style={styles.label}>Consignee:</Text>
-            <View>
-              <Text style={styles.value}>{form.consigneeContact}</Text>
-              <Text style={styles.value}>{form.consignee}</Text>
-              <Text style={styles.value}>{form.consigneeAddress}</Text>
-            </View>
-          </View>
-        </View>
-        {/* Details Row */}
-        <View style={styles.detailsRow}>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Piece:</Text>
-            <Text style={styles.value}>{form.pieces}</Text>
-          </View>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Weight:</Text>
-            <Text style={styles.value}>{form.weight}</Text>
-          </View>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Description</Text>
-            <Text style={styles.value}>{form.description}</Text>
-          </View>
-          <View style={styles.detailColLast}>
-            <Text style={styles.label}>Cash Collect:</Text>
-            <Text style={styles.value}>Rs.{form.amount}</Text>
-          </View>
-        </View>
-        {/* Remarks */}
-      </View>
-      <Text style={styles.veiwTitle}>TERMS AND CONDITION</Text>
       <View style={styles.terms}>
+        <Text style={styles.veiwTitle}>TERMS AND CONDITION</Text>
         <View style={styles.veiwText}>
           <Text>
             1. When ordering Sonic Express (A UNS Ltd. Company) services you, as 'Shipper', are agreeing, on your behalf and on behalf of anyone else with an interest in the Shipment that the Terms and Conditions shall apply from
@@ -272,7 +263,7 @@ const QuotationGenerator = ({ form }) => {
   };
   return (
     <div>
-      {/* <Button
+      <Button
         className='p-1'
         onClick={() => {
           const pdfBlob = pdf(<QuotationPDF form={form} />).toBlob();
@@ -281,8 +272,8 @@ const QuotationGenerator = ({ form }) => {
             window.open(url, '_blank');
           });
         }}>
-        <FileTextFilled size={20} />
-      </Button> */}
+        Veiw
+      </Button>
       <Button onClick={generatePDF} className="w-75 mt-2 p-3"> Save as Print </Button>
     </div>
   );
