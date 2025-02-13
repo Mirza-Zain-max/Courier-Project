@@ -5,7 +5,7 @@ import { fireStore } from "../../Config/firebase";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import { Container } from "react-bootstrap";
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const ShowData = () => {
     const { Title } = Typography;
@@ -13,112 +13,22 @@ const ShowData = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [riderList, setRiderList] = useState([]);
-    const [riders, setRiders] = useState([]);
+    // const [riders, setRiders] = useState([]);
     const [newReceiver, setNewReceiver] = useState({});
     const [selectedRider, setSelectedRider] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [page, setPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [editRecord, setEditRecord] = useState(null);
+    // const [editRecord, setEditRecord] = useState(null);
     const [editingRecord, setEditingRecord] = useState(null)
     const [form] = Form.useForm();
-    const [editedValues, setEditedValues] = useState({});
+    // const [editedValues, setEditedValues] = useState({});
     const inputRefs = useRef([]);
 
     useEffect(() => {
         fetchDeliveries();
     }, []);
-    // useEffect(() => {
-    //             const fetchData = () => {
-    //                 const deliveriesRef = collection(fireStore, "deliveries");
-    //                 const shipperRef = collection(fireStore, "shipper");
-            
-    //                 const deliveriesQuery = query(deliveriesRef, orderBy("createdAt"));
-    //                 const shipperQuery = query(shipperRef, orderBy("createdAt"));
-            
-    //                 // Listen to "deliveries" collection
-    //                 const unsubscribeDeliveries = onSnapshot(deliveriesQuery, (querySnapshot) => {
-    //                     const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, source: "deliveries", ...doc.data() }));
-            
-    //                     // Listen to "shipper" collection
-    //                     const unsubscribeShipper = onSnapshot(shipperQuery, (shipperSnapshot) => {
-    //                         const shipperList = shipperSnapshot.docs.map(doc => ({ id: doc.id, source: "shipper", ...doc.data() }));
-            
-    //                         // Combine both data sources
-    //                         const combinedData = [...deliveryList, ...shipperList];
-            
-    //                         setData(combinedData);
-    //                         setFilteredData(combinedData);
-    //                     });
-            
-    //                     return unsubscribeShipper;
-    //                 });
-            
-    //                 return () => {
-    //                     unsubscribeDeliveries();
-    //                 };
-    //             };
-            
-    //             const unsubscribe = fetchData();
-    //             return () => unsubscribe();
-    //         }, []);
-    // const fetchDeliveries = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const querySnapshot = await getDocs(collection(fireStore, "deliveries"));
-    //         const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-    //         // Fetch riders
-    //         const riderQuerySnapshot = await getDocs(collection(fireStore, "riders"));
-    //         const riders = riderQuerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-    //         // Create a map for fast lookup
-    //         const riderMap = new Map(riders.map(rider => [rider.id, rider.name || "Unknown"]));
-    
-    //         // Assign rider names to deliveries
-    //         const updatedDeliveries = deliveryList.map(delivery => ({
-    //             ...delivery,
-    //             riderName: riderMap.get(delivery.riderId) || "Unknown",
-    //         }));
-    
-    //         setData(updatedDeliveries);
-    //         setFilteredData(updatedDeliveries);
-    //         setRiderList(riders);
-    //     } catch (error) {
-    //         console.error("Error fetching deliveries:", error);
-    //     }
-    //     setLoading(false);
-    // };
-    
-    // const fetchDeliveries = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const querySnapshot = await getDocs(collection(fireStore, "deliveries"));
-    //         const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-    //         // Fetch riders
-    //         const riderQuerySnapshot = await getDocs(collection(fireStore, "riders"));
-    //         const riders = riderQuerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-    //         // Create a map for fast lookup
-    //         const riderMap = new Map(riders.map(rider => [rider.id, rider.name || "Unknown"]));
-    
-    //         // Assign rider names to deliveries
-    //         const updatedDeliveries = deliveryList.map(delivery => ({
-    //             ...delivery,
-    //             riderName: riderMap.get(delivery.riderId) || "Unknown",
-    //         }));
-            
-    
-    //         setData(updatedDeliveries);
-    //         setFilteredData(updatedDeliveries);
-    //         setRiderList(riders);
-    //     } catch (error) {
-    //         console.error("Error fetching deliveries:", error);
-    //     }
-    //     setLoading(false);
-    // };
     
     const fetchDeliveries = async () => {
         setLoading(true);
@@ -475,7 +385,7 @@ const ShowData = () => {
                                     </Col>
                                     <Col span={12} className="mt-3">
                                         <Button className=" bg-success text-light ms-2" onClick={handleSaveReceiver}>
-                                            Save Receiver Names
+                                            Save  Names
                                         </Button>
                                     </Col>
                                 </Row>
@@ -490,6 +400,7 @@ const ShowData = () => {
                                     showSizeChanger: false,
                                     onChange: (newPage) => setPage(newPage),
                                 }}
+                                scroll={{ x: 1000 }}
                             />
 
                             <Modal title="Edit Record" visible={isModalVisible} onOk={handleModalOk} onCancel={handleModalCancel}>
@@ -519,212 +430,3 @@ const ShowData = () => {
 };
 
 export default ShowData;
-
-// import React, { useEffect, useRef, useState } from "react";
-// import { Table, Select, DatePicker, Button, Modal, Input, message, Form, Row, Col, Card, Typography, Popconfirm } from "antd";
-// import { collection, deleteDoc, doc, updateDoc, writeBatch, query, orderBy, onSnapshot, getDoc } from "firebase/firestore";
-// import { fireStore } from "../../Config/firebase";
-// import { DeleteFilled, EditFilled } from "@ant-design/icons";
-// import { Container } from "react-bootstrap";
-
-// const ShowData = () => {
-//     const { Title } = Typography;
-//     const [data, setData] = useState([]);
-//     const [filteredData, setFilteredData] = useState([]);
-//     const [riderList, setRiderList] = useState([]);
-//     const [selectedRider, setSelectedRider] = useState(null);
-//     const [selectedDate, setSelectedDate] = useState(null);
-//     const [searchValue, setSearchValue] = useState('');
-//     const [isModalVisible, setIsModalVisible] = useState(false);
-//     const [editingRecord, setEditingRecord] = useState(null);
-//     const [form] = Form.useForm();
-//     const [newReceiver, setNewReceiver] = useState({});
-//     const inputRefs = useRef([]);
-
-//     // useEffect(() => {
-//     //     const fetchData = () => {
-//     //         const deliveriesRef = collection(fireStore, "deliveries");
-//     //         const q = query(deliveriesRef, orderBy("createdAt"));
-//     //         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-//     //             const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-//     //             setData(deliveryList);
-//     //             setFilteredData(deliveryList);
-//     //         });
-//     //         return unsubscribe;
-//     //     };
-//     useEffect(() => {
-//         const fetchData = () => {
-//             const deliveriesRef = collection(fireStore, "deliveries");
-//             const shipperRef = collection(fireStore, "shipper");
-    
-//             const deliveriesQuery = query(deliveriesRef, orderBy("createdAt"));
-//             const shipperQuery = query(shipperRef, orderBy("createdAt"));
-    
-//             // Listen to "deliveries" collection
-//             const unsubscribeDeliveries = onSnapshot(deliveriesQuery, (querySnapshot) => {
-//                 const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, source: "deliveries", ...doc.data() }));
-    
-//                 // Listen to "shipper" collection
-//                 const unsubscribeShipper = onSnapshot(shipperQuery, (shipperSnapshot) => {
-//                     const shipperList = shipperSnapshot.docs.map(doc => ({ id: doc.id, source: "shipper", ...doc.data() }));
-    
-//                     // Combine both data sources
-//                     const combinedData = [...deliveryList, ...shipperList];
-    
-//                     setData(combinedData);
-//                     setFilteredData(combinedData);
-//                 });
-    
-//                 return unsubscribeShipper;
-//             });
-    
-//             return () => {
-//                 unsubscribeDeliveries();
-//             };
-//         };
-    
-//         const unsubscribe = fetchData();
-//         return () => unsubscribe();
-//     }, []);
-    
-    
-
-//     //     const unsubscribe = fetchData();
-//     //     return () => unsubscribe();
-//     // }, []);
-
-//     const applyFilters = () => {
-//         let filtered = [...data];
-//         if (selectedRider) {
-//             filtered = filtered.filter(delivery => delivery.riderId === selectedRider);
-//         }
-//         if (selectedDate) {
-//             const selectedDateString = selectedDate.format("YYYY-MM-DD");
-//             filtered = filtered.filter(delivery => delivery.date === selectedDateString);
-//         }
-//         setFilteredData(filtered);
-//     };
-
-//     const handleDelete = async (id) => {
-//         try {
-//             await deleteDoc(doc(fireStore, "deliveries", id));
-//             message.success("Delivery deleted successfully!");
-//         } catch (error) {
-//             console.error("Error deleting delivery:", error);
-//             message.error("Failed to delete delivery!");
-//         }
-//     };
-
-//     const handleSaveReceiver = async () => {
-//         try {
-//             const batch = writeBatch(fireStore);
-//             for (const item of filteredData) {
-//                 if (newReceiver[item.cnNumber]) {
-//                     const deliveryRef = doc(fireStore, "deliveries", item.id);
-//                     batch.update(deliveryRef, { receiverName: newReceiver[item.cnNumber] });
-//                 }
-//             }
-//             await batch.commit();
-//             message.success("Receiver names saved successfully!");
-//         } catch (error) {
-//             console.error("Error saving receiver names: ", error);
-//             message.error("Failed to save receiver names!");
-//         }
-//     };
-
-
-//     const handleModalOk = async () => {
-//         try {
-//             const values = await form.validateFields();
-//             if (!editingRecord) return;
-//             const docRef = doc(fireStore, "deliveries", editingRecord.id);
-//             await updateDoc(docRef, {
-//                 receiverName: values.name,
-//                 date: values.date,
-//                 consigneeName: values.consigneeName,
-//             });
-//             setIsModalVisible(false);
-//             message.success("Record updated successfully!");
-//         } catch (error) {
-//             console.error("Error updating record: ", error);
-//             message.error("Failed to update record!");
-//         }
-//     };
-
-//     const columns = [
-//         { title: "#", key: "index", render: (_, __, index) => index + 1 },
-//         { title: "CN Number", dataIndex: "cnNumber", key: "cnNumber" },
-//         { title: "Shipper Name", dataIndex: "shipperName", key: "shipperName" },
-//         { title: "Rider Name", dataIndex: "riderName", key: "riderName" },
-//         { 
-//             title: "Consignee Name", 
-//             key: "consignee",
-//             render: (record) => record.consignee || record.consigneeName 
-//         },        
-//         {
-//             title: "Receiver Name",
-//             key: "receiverName",
-//             render: (record, _, index) => (
-//                 <Input
-//                     defaultValue={record.receiverName}
-//                     ref={(ref) => (inputRefs.current[index] = ref)}
-//                     onChange={(e) => setNewReceiver(prev => ({ ...prev, [record.cnNumber]: e.target.value }))}
-//                 />
-//             ),
-//         },
-//         { title: "Date", dataIndex: "date", key: "date" },
-//         {
-//             title: "Actions",
-//             key: "actions",
-//             render: (_, record) => (
-//                 <>
-//                     <Button 
-//                         key={`edit-${record.id}`} 
-//                         className="bg-success text-light me-2" 
-//                         onClick={() => setEditingRecord(record)}
-//                     >
-//                         <EditFilled />
-//                     </Button>
-                    
-//                     <Popconfirm 
-//                         title="Are you sure?" 
-//                         onConfirm={() => handleDelete(record.id)} 
-//                         okText="Yes" 
-//                         cancelText="No"
-//                         className="mx-2"
-//                     >
-//                         <Button key={`delete-${record.id}`} className="bg-danger text-light" danger>
-//                             <DeleteFilled />
-//                         </Button>
-//                     </Popconfirm>
-//                 </>
-//             )
-            
-//         },
-//     ];
-
-//     return (
-//         <Container>
-//             <Row>
-//                 <Col span={24}>
-//                     <Title level={1}>Show Data</Title>
-//                     <Card>
-//                         <Row>
-//                             <Col span={12}>
-//                                 <Select placeholder="Select Rider" onChange={setSelectedRider} allowClear className="w-75" />
-//                             </Col>
-//                             <Col span={12}>
-//                                 <DatePicker onChange={setSelectedDate} className="w-75" />
-//                                 <Button onClick={applyFilters}>Apply Filters</Button>
-//                             </Col>
-//                         </Row>
-//                         <Button onClick={handleSaveReceiver} className="bg-success text-light mt-3">Save Receiver Names</Button>
-//                         <Table dataSource={filteredData} columns={columns} pagination={{ pageSize: 20 }} />
-//                     </Card>
-//                 </Col>
-//             </Row>
-//         </Container>
-//     );
-// };
-
-// export default ShowData;

@@ -6,7 +6,7 @@ function Header1() {
   const { isAuth, handleLogout } = useAuthContext()
 
   return (
-    <Navbar expand="lg" className="bg-dark navbar-dark p-3">
+    <Navbar expand="lg" className="p-3" style={{backgroundColor:"#2C5364"}}>
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

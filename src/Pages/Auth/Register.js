@@ -79,7 +79,7 @@ const Register = () => {
                                     </Form.Item>
                                 </Col>
                                 <Col span={24}>
-                                    <Button type='primary' htmlType='submit' onClick={handleSubmit} className='w-100' loading={isProcessing}>Register</Button>
+                                    <Button  htmlType='submit' onClick={handleSubmit} className='w-100 bg-info' loading={isProcessing}>Register</Button>
                                 </Col>
                                 <Col span={12} className='mt-2'>
                                     <p>

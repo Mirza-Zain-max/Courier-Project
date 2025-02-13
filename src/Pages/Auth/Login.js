@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { Col, Row, Button, Input, Form, message } from 'antd'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { Fade } from 'react-awesome-reveal'
 import { auth } from '../../Config/firebase'
 
@@ -57,7 +57,7 @@ const Login = () => {
                                     </Form.Item>
                                 </Col>
                                 <Col span={24}>
-                                    <Button type='primary' htmlType='submit' onClick={handleSubmit} loading={isProcessing} className='w-100'>Login</Button>
+                                    <Button htmlType='submit' onClick={handleSubmit} loading={isProcessing} className='bg-info w-100'>Login</Button>
                                 </Col>
                                 {/* <Col span={12}>
                                     <Link to='/auth/forgot' className=' my-2 text-center  nav-link'>Forgot Password</Link>

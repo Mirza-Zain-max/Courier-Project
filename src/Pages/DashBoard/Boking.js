@@ -9,7 +9,7 @@ import QuotationGenerator from "./pdf-generator";
 const Boking = () => {
   const { user } = useAuthContext()
   const [cnError, setCnError] = useState("");
-  const [amount, setAmount] = useState();
+  // const [amount, setAmount] = useState();
   const descriptionRef = useRef(null);
   // const [trackingNumber, setTrackingNumber] = useState("");
   // const [trackingData, setTrackingData] = useState(null);
@@ -123,7 +123,7 @@ const Boking = () => {
       <Container>
         <Row className="my-3">
           <Col md={24} lg={12}>
-            <Card className="border-1 border-black rounded-5">
+            <Card className="border-1 border-black rounded-5" >
               <Row>
                 <Col xs={24} md={24} lg={12} className="px-2 py-1">
                   <label className="fw-bolder w-100 mb-1">Date:</label>
