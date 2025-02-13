@@ -330,7 +330,7 @@ const TrackShipment = () => {
                 };
 
             } catch (error) {
-                message.error("Failed to fetch data from Firestore!");
+                message.error("Failed to fetch data.");
             }
         };
 
@@ -348,10 +348,7 @@ const TrackShipment = () => {
                 return "text-warning";
         }
     };
-
-
     const handleTrackCNChange = (e) => setTrackCN(e.target.value);
-
     const saveTrackingData = async () => {
         if (!trackResult) {
             message.error("No tracking data to save.");
@@ -390,19 +387,16 @@ const TrackShipment = () => {
             message.error("Not found with this CN Number.");
         }
     };
-
-
-
-
+    const handleKeyPress = (event) => { if (event.key === "Enter") trackShipment(); };
     return (
         <main className="d-flex justify-content-center align-items-center auth">
             <Container>
                 <Row className="d-flex justify-content-center align-items-center">
                     <Col span={24}>
-                        <Card className="mt-5">
+                        <Card className="mt-5" style={{backgroundColor:"#d6d6d6"}}>
                             <Title level={1}>Track Shipment</Title>
                             <label className="fw-bolder mb-4">Enter CN Number:</label>
-                            <Input className="mb-4" type="text" value={trackCN} onChange={handleTrackCNChange} placeholder="Enter CN Number" />
+                            <Input className="mb-4" type="text" value={trackCN} onChange={handleTrackCNChange} onKeyDown={handleKeyPress} placeholder="Enter CN Number" />
                             <Button className="w-25 p-3" type="primary" onClick={trackShipment}>
                                 Track
                             </Button>

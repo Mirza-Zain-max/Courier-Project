@@ -37,8 +37,7 @@ const ViewSheet = () => {
         setDeliveries([...deliveriesList, ...shipperList]);
 
       } catch (error) {
-        console.error("Firestore Fetch Error:", error);
-        message.error("Failed to fetch data from Firestore!");
+        message.error("Failed to fetch data");
       }
     };
 

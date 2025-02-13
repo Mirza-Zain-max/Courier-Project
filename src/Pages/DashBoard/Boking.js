@@ -1,7 +1,7 @@
 import { Card, Col, Input, InputNumber, message, Row } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import {  Container } from "react-bootstrap";
 import { fireStore } from "../../Config/firebase"; // Import Firestore
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useAuthContext } from "../../Context/Auth";
@@ -84,7 +84,7 @@ const Boking = () => {
       console.log("Saving courier:", newCourier);
 
       await addDoc(collection(fireStore, "shipper"), newCourier);
-      message.success("Courier added successfully!");
+      message.success("Save successfully!");
 
       // Reset form & error
       setForm({
@@ -98,7 +98,7 @@ const Boking = () => {
       document.querySelector(`[name="date"]`).focus();
     } catch (error) {
       console.error("Firestore Error:", error);
-      message.error("Error adding courier: " + error.message);
+      message.error("Error adding : " + error.message);
     }
   };
 

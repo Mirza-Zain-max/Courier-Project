@@ -268,7 +268,7 @@ const ShowData = () => {
     
             if (hasUpdates) {
                 await batch.commit();
-                message.success("Receiver names saved successfully and status updated to Delivered!");
+                message.success("updated saved successfully");
             } else {
                 message.warning("No valid records found to update!");
             }
