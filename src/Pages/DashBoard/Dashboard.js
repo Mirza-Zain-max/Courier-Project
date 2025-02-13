@@ -14,7 +14,7 @@ const Dashboard = () => {
                 <Row className='d-flex justify-content-center align-items-center'>
                     <Col span={24}>
                         <h1 className='display-2 fw-bolder text-light'>
-                            Welcome To Naveed Courier & Cargo Services
+                            Welcome To Sonic Express
                         </h1>
                      <Col span={24} className=' d-flex justify-content-center align-items-center'>
                      <Button className='fw-bolder mt-2 d-flex justify-content-center align-items-center border-0' onClick={()=>{navigate("/add")}} style={{backgroundColor:"cyan" , color:"black"}}>

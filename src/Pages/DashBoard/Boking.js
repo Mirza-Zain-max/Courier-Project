@@ -230,7 +230,7 @@ const Boking = () => {
 
 
   return (
-    <main className="d-flex justify-content-center align-items-center">
+    <main className="auth d-flex justify-content-center align-items-center">
       <Container>
         <Row className="my-3">
           <Col md={24} lg={12}>
@@ -260,7 +260,7 @@ const Boking = () => {
               </Col>
               <Col span={24} className="px-2 py-1">
                 <label className="fw-bolder">Contact Number:</label>
-                <Input type="text" name="contact" placeholder="Enter Contact Number" value={form.contact} onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "consignee")} />
+                <Input type="number" name="contact" placeholder="Enter Contact Number" value={form.contact} onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "consignee")} />
               </Col>
             </Card>
           </Col>
@@ -279,7 +279,7 @@ const Boking = () => {
               </Col>
               <Col span={24} className="px-2 py-1">
                 <label className="fw-bolder">Consignee Contact:</label>
-                <Input type="text" name="consigneeContact" value={form.consigneeContact} placeholder="Enter Contact Number" onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "origin")} />
+                <Input type="number" name="consigneeContact" value={form.consigneeContact} placeholder="Enter Contact Number" onChange={handleChange} onKeyDown={(e) => handleKeyPress(e, "origin")} />
               </Col>
               <Row className="p-2 wrapper" gutter={6}>
                 <Col xs={24} md={6} lg={3}>
@@ -297,7 +297,7 @@ const Boking = () => {
                 <Col xs={24} md={6} lg={4}>
                   <label className="mb-1 fw-bolder">Weight:</label>
                   <Input
-                    type="text"
+                    type="number"
                     name="weight"
                     value={form.weight}
                     onChange={handleChange}
@@ -345,9 +345,8 @@ const Boking = () => {
                     />
                   </div>
                 </Col>
-
               </Row>
-              <Row>
+              <Row className="d-flex justify-content-center align-items-center">
                 <Col span={10}>
                   <Button variant="primary" className="w-75 mt-2 p-1 fs-6" onClick={handleAddCourier}>Save Data</Button>
                 </Col>
