@@ -198,6 +198,52 @@ const ShowData = () => {
     //         setIsModalVisible(false);
     //     }
     // };
+    // const handleModalOk = async () => {
+    //     try {
+    //         const values = await form.validateFields();
+    //         console.log("Form Values:", values); // Debugging
+    
+    //         if (!editingRecord || !editingRecord.id) {
+    //             message.error("No record selected for updating!");
+    //             return;
+    //         }
+    
+    //         const updateData = {
+    //             receiverName: values.name || "N/A",
+    //             // date: values.date || new Date().toISOString().split("T")[0],
+    //             shipperName : values.shipper || "",
+    //             consigneeName: values.consignee || "N/A",
+    //         };
+    
+    //         const deliveryRef = doc(fireStore, "deliveries", editingRecord.id);
+    //         const shipperRef = doc(fireStore, "shipper", editingRecord.id);
+    
+    //         // Check if documents exist
+    //         const deliveryDocSnap = await getDoc(deliveryRef);
+    //         const shipperDocSnap = await getDoc(shipperRef);
+    
+    //         if (!deliveryDocSnap.exists() && !shipperDocSnap.exists()) {
+    //             message.error("Record does not exist!");
+    //             return;
+    //         }
+    //         // Update both documents if they exist
+    //         const updatePromises = [];
+    //         if (deliveryDocSnap.exists()) updatePromises.push(updateDoc(deliveryRef, updateData));
+    //         if (shipperDocSnap.exists()) updatePromises.push(updateDoc(shipperRef, updateData));
+    
+    //         await Promise.all(updatePromises);
+    
+    //         await fetchDeliveries(); // Refresh data
+    //         setIsModalVisible(false);
+    //         message.success("Record updated successfully!");
+    //     } catch (error) {
+    //         console.error("Error updating record: ", error);
+    //         message.error("Failed to update record!");
+    //     }
+    // };
+    
+    
+
     const handleModalOk = async () => {
         try {
             const values = await form.validateFields();
@@ -210,10 +256,11 @@ const ShowData = () => {
     
             const updateData = {
                 receiverName: values.name || "N/A",
-                // date: values.date || new Date().toISOString().split("T")[0],
-                shipperName : values.shipper || "",
-                // consigneeName: values.consignee || "N/A",
+                shipperName: values.shipper || "",
+                consigneeName: values.consignee || "N/A", // Ensure it's present
             };
+    
+            console.log("Updating Firestore with:", updateData); // Debugging
     
             const deliveryRef = doc(fireStore, "deliveries", editingRecord.id);
             const shipperRef = doc(fireStore, "shipper", editingRecord.id);
@@ -226,6 +273,7 @@ const ShowData = () => {
                 message.error("Record does not exist!");
                 return;
             }
+    
             // Update both documents if they exist
             const updatePromises = [];
             if (deliveryDocSnap.exists()) updatePromises.push(updateDoc(deliveryRef, updateData));
@@ -242,8 +290,6 @@ const ShowData = () => {
         }
     };
     
-    
-
     const onSearch = (value) => {
         let filtered = [...data];
         if (value) {
@@ -414,9 +460,9 @@ const ShowData = () => {
                                     <Form.Item name="shipper" label="shipper" rules={[{ required: true, message: 'Please input the SipperName!' }]}>
                                         <Input />
                                     </Form.Item>
-                                    {/* <Form.Item name="consigneeName" label="Consignee Name" rules={[{ required: true, message: 'Please input the consignee name!' }]}>
+                                    <Form.Item name="consignee" label="Consignee Name" rules={[{ required: true, message: 'Please input the consignee name!' }]}>
                                         <Input />
-                                    </Form.Item> */}
+                                    </Form.Item>
                                 </Form>
                             </Modal>
 

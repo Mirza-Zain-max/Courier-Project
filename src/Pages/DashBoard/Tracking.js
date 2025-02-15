@@ -341,9 +341,9 @@ const TrackShipment = () => {
             case "Delivered":
                 return "text-success";
             case "On Route":
-                return "text-primary";
-            case "Booked":
                 return "text-danger";
+            case "Booked":
+                return "text-primary";
             default:
                 return "text-warning";
         }

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, pdf, Font, Image } from '@react-pdf/renderer';
 import { Button } from 'antd';
-import { EyeOutlined} from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
 // import { FileTextFilled } from '@ant-design/icons';
 Font.register({
   family: 'Arial',
@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
   title: { textAlign: 'center', fontSize: 9, fontFamily: 'Arial', fontWeight: "bold" },
   infoRow: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   infoCol: { flex: 1, padding: 4, borderRight: 1, borderColor: '#000000' },
+  infoCol3: {textAlign:"center"},
   infoColLast: { flex: 1, padding: 4 },
+  infoBox: { width: "100px" },
   label: { fontSize: 9, fontFamily: 'Arial', fontWeight: "bold", marginBottom: 4 },
   value: { fontSize: 9, flexDirection: "column" },
   addressSection: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
@@ -40,10 +42,15 @@ const QuotationPDF = ({ form }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.container}>
-        <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo1.png" style={{ height: 45, width: 60 }} />
+            <Image src="Assets/logo1.png" style={{ height: 45, width: 180 }} />
+          </View>
+          <View style={styles.infoCol}>
+            <View  >
+              <Text>Consignment Note:</Text>
+              <Text style={styles.infoCol3}>{form.cnNumber}</Text>
+            </View>
           </View>
           <View style={styles.infoColLast}>
             <Text style={styles.label}>Booking Date:</Text>
@@ -102,10 +109,15 @@ const QuotationPDF = ({ form }) => (
         </View>
       </View>
       <View style={styles.container}>
-        <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo1.png" style={{ height: 45, width: 60 }} />
+            <Image src="Assets/logo1.png" style={{ height: 45, width: 180 }} />
+          </View>
+          <View style={styles.infoCol}>
+            <View  >
+              <Text>Consignment Note:</Text>
+              <Text style={styles.infoCol3}>{form.cnNumber}</Text>
+            </View>
           </View>
           <View style={styles.infoColLast}>
             <Text style={styles.label}>Booking Date:</Text>
@@ -122,7 +134,6 @@ const QuotationPDF = ({ form }) => (
             <Text style={styles.value}>{form.destination}</Text>
           </View>
         </View>
-        {/* Address Section */}
         <View style={styles.addressSection}>
           <View style={styles.addressCol}>
             <Text style={styles.label}>Shipper:</Text>
@@ -145,7 +156,6 @@ const QuotationPDF = ({ form }) => (
             </View>
           </View>
         </View>
-        {/* Details Row */}
         <View style={styles.detailsRow}>
           <View style={styles.detailCol}>
             <Text style={styles.label}>Piece:</Text>
@@ -164,14 +174,17 @@ const QuotationPDF = ({ form }) => (
             <Text style={styles.value}>Rs.{form.amount}</Text>
           </View>
         </View>
-        {/* Remarks */}
       </View>
       <View style={styles.container}>
-        {/* Header */}
-        <Text style={styles.veiwTitl}>Consignment Note{form.cnNumber}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo1.png" style={{ height: 45, width: 60 }} />
+            <Image src="Assets/logo1.png" style={{ height: 45, width: 180 }} />
+          </View>
+          <View style={styles.infoCol}>
+            <View  >
+              <Text>Consignment Note:</Text>
+              <Text style={styles.infoCol3}>{form.cnNumber}</Text>
+            </View>
           </View>
           <View style={styles.infoColLast}>
             <Text style={styles.label}>Booking Date:</Text>
@@ -188,7 +201,6 @@ const QuotationPDF = ({ form }) => (
             <Text style={styles.value}>{form.destination}</Text>
           </View>
         </View>
-        {/* Address Section */}
         <View style={styles.addressSection}>
           <View style={styles.addressCol}>
             <Text style={styles.label}>Shipper:</Text>
@@ -211,7 +223,6 @@ const QuotationPDF = ({ form }) => (
             </View>
           </View>
         </View>
-        {/* Details Row */}
         <View style={styles.detailsRow}>
           <View style={styles.detailCol}>
             <Text style={styles.label}>Piece:</Text>
@@ -230,8 +241,8 @@ const QuotationPDF = ({ form }) => (
             <Text style={styles.value}>Rs.{form.amount}</Text>
           </View>
         </View>
-        {/* Remarks */}
       </View>
+     
       <View style={styles.terms}>
         <Text style={styles.veiwTitle}>TERMS AND CONDITION</Text>
         <View style={styles.veiwText}>
