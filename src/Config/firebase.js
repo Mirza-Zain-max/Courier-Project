@@ -17,6 +17,17 @@ const firebaseConfig = {
   measurementId: "G-F5FVSEJEX5"
 };
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyASvmD5PrAaUBLRxMmqiEJs8exW_7dz538",
+//   authDomain: "sonic-express-a725e.firebaseapp.com",
+//   projectId: "sonic-express-a725e",
+//   storageBucket: "sonic-express-a725e.firebasestorage.app",
+//   messagingSenderId: "315445968859",
+//   appId: "1:315445968859:web:4f4c161503b73591f5b1fe",
+//   measurementId: "G-368QP3JV4V"
+// };
+
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

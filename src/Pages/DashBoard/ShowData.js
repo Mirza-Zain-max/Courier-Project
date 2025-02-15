@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Table, Select, DatePicker, Button, Modal, Input, message, Form, Row, Col, Card, Typography, Popconfirm } from "antd";
-import { collection, getDocs, deleteDoc, doc, updateDoc, writeBatch, getDoc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, updateDoc, writeBatch, getDoc, query, orderBy } from "firebase/firestore";
 import { fireStore } from "../../Config/firebase";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import { Container } from "react-bootstrap";
@@ -30,43 +30,98 @@ const ShowData = () => {
         fetchDeliveries();
     }, []);
     
+    // const fetchDeliveries = async () => {
+    //     setLoading(true);
+    //     try {
+    //         // Fetch deliveries collection
+    //         const querySnapshot = await getDocs(collection(fireStore, "deliveries"));
+    //         const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, source: "deliveries", ...doc.data() }));
+    
+    //         // Fetch riders collection
+    //         const riderQuerySnapshot = await getDocs(collection(fireStore, "riders"));
+    //         const riders = riderQuerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    //         // Fetch shipper collection (✅ FIXED shipperSnapshot missing issue)
+    //         const shipperSnapshot = await getDocs(collection(fireStore, "shipper"));
+    //         const shipperList = shipperSnapshot.docs.map(doc => ({ id: doc.id, source: "shipper", ...doc.data() }));
+    
+    //         // Create a map for fast lookup
+    //         const riderMap = new Map(riders.map(rider => [rider.id, rider.name || "Unknown"]));
+    
+    //         // Assign rider names to deliveries
+    //         const updatedDeliveries = deliveryList.map(delivery => ({
+    //             ...delivery,
+    //             riderName: riderMap.get(delivery.riderId) || "Unknown",
+    //         }));
+    
+    //         // Combine both data sources
+    //         const combinedData = [...updatedDeliveries, ...shipperList];
+    
+    //         // ✅ FIXED: `setData` को एक ही बार कॉल किया गया
+    //         setData(combinedData);
+    //         setFilteredData(combinedData);
+    //         setRiderList(riders);
+    
+    //     } catch (error) {
+    //         console.error("Error fetching deliveries:", error);
+    //     }
+    //     setLoading(false);
+    // };
+    
     const fetchDeliveries = async () => {
         setLoading(true);
         try {
-            // Fetch deliveries collection
-            const querySnapshot = await getDocs(collection(fireStore, "deliveries"));
-            const deliveryList = querySnapshot.docs.map(doc => ({ id: doc.id, source: "deliveries", ...doc.data() }));
-    
-            // Fetch riders collection
-            const riderQuerySnapshot = await getDocs(collection(fireStore, "riders"));
-            const riders = riderQuerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-            // Fetch shipper collection (✅ FIXED shipperSnapshot missing issue)
-            const shipperSnapshot = await getDocs(collection(fireStore, "shipper"));
-            const shipperList = shipperSnapshot.docs.map(doc => ({ id: doc.id, source: "shipper", ...doc.data() }));
-    
-            // Create a map for fast lookup
-            const riderMap = new Map(riders.map(rider => [rider.id, rider.name || "Unknown"]));
-    
-            // Assign rider names to deliveries
-            const updatedDeliveries = deliveryList.map(delivery => ({
-                ...delivery,
-                riderName: riderMap.get(delivery.riderId) || "Unknown",
+            // ✅ Correcting Firestore query with orderBy
+            const deliveryQuery = query(collection(fireStore, "deliveries"), orderBy("createdAt"));
+            const querySnapshot = await getDocs(deliveryQuery);
+            const deliveryList = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                source: "deliveries",
+                createdAt: doc.data().createdAt || "", // Avoids undefined issues
+                ...doc.data()
             }));
     
-            // Combine both data sources
+            // ✅ Fetch riders collection
+            const riderQuerySnapshot = await getDocs(collection(fireStore, "riders"));
+            const riders = riderQuerySnapshot.docs.map(doc => ({
+                id: doc.id,
+                name: doc.data().name || "Unknown" // Ensures no undefined values
+            }));
+    
+            // ✅ Fetch shipper collection
+            const shipperSnapshot = await getDocs(collection(fireStore, "shipper"));
+            const shipperList = shipperSnapshot.docs.map(doc => ({
+                id: doc.id,
+                source: "shipper",
+                ...doc.data()
+            }));
+    
+            // ✅ Create a map for fast lookup of riders
+            const riderMap = new Map(riders.map(rider => [rider.id, rider.name]));
+    
+            // ✅ Assign rider names to deliveries
+            const updatedDeliveries = deliveryList.map(delivery => ({
+                ...delivery,
+                riderName: riderMap.get(delivery.riderId) || "Unknown"
+            }));
+    
+            // ✅ Combine deliveries & shippers
             const combinedData = [...updatedDeliveries, ...shipperList];
     
-            // ✅ FIXED: `setData` को एक ही बार कॉल किया गया
+            // ✅ Efficient state updates
             setData(combinedData);
             setFilteredData(combinedData);
             setRiderList(riders);
-    
         } catch (error) {
             console.error("Error fetching deliveries:", error);
         }
         setLoading(false);
     };
+    
+    // ✅ Fetch deliveries on component mount
+    useEffect(() => {
+        fetchDeliveries();
+    }, []);
     
     useEffect(() => {
         fetchDeliveries();
