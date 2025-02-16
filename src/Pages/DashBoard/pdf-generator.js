@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
   title: { textAlign: 'center', fontSize: 9, fontFamily: 'Arial', fontWeight: "bold" },
   infoRow: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   infoCol: { flex: 1, padding: 4, borderRight: 1, borderColor: '#000000' },
-  infoCol3: {textAlign:"center"},
+  infoCol3: { textAlign: "center" },
   infoColLast: { flex: 1, padding: 4 },
   infoBox: { width: "100px" },
-  label: { fontSize: 9, fontFamily: 'Arial', fontWeight: "bold", marginBottom: 4 },
+  label: { fontSize: 9, fontFamily: 'Arial', fontWeight: "bold" },
   value: { fontSize: 9, flexDirection: "column" },
   addressSection: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   addressCol: { flex: 1, padding: 6, borderRight: 1, borderColor: '#000000' },
@@ -30,11 +30,12 @@ const styles = StyleSheet.create({
   addressBox: { border: 1, borderColor: '#000000', padding: 2, marginTop: 4 },
   detailsRow: { flexDirection: 'row', borderBottom: 1, borderColor: '#000000' },
   detailCol: { flex: 1, padding: 3, borderRight: 1, borderColor: '#000000' },
-  detailColLast: { flex: 1, padding: 4 },
+  detailColLast: { flex: 1, padding: 5 },
   remarks: { padding: 4 },
   veiwTitle: { fontSize: 11, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold", },
-  veiwTitl: { fontSize: 11, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold" },
-  veiwText: { fontSize: 9, lineHeight: "12px", padding: 3, textAlign: "justify", border: "1px solid black" },
+  veiwTitl: { fontSize: 9, border: "1px solid black", textAlign: "center", family: 'Arial', fontWeight: "bold" },
+  veiwText: { fontSize: 7, lineHeight: "12px", padding: 3, textAlign: "justify", border: "1px solid black" },
+  veiwItlic: { fontSize: "12px", },
   terms: { fontSize: 9, textAlign: 'justify', borderColor: '#000000', padding: 4 }
 });
 
@@ -44,7 +45,7 @@ const QuotationPDF = ({ form }) => (
       <View style={styles.container}>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo1.png" style={{ height: 45, width: 180 }} />
+            <Image src="Assets/logo24.png" style={{ height: 54, width: 180 }} />
           </View>
           <View style={styles.infoCol}>
             <View  >
@@ -105,13 +106,109 @@ const QuotationPDF = ({ form }) => (
           <View style={styles.detailColLast}>
             <Text style={styles.label}>Cash Collect:</Text>
             <Text style={styles.value}>Rs.{form.amount}</Text>
+          </View>
+        </View>
+        <View style={styles.detailsRow}>
+          {/* <View style={styles.detailCol}> */}
+          {/* <View style={styles.detailColLast}>
+            <Text style={styles.label}>Remarks:</Text>
+          </View> */}
+          <View style={styles.detailColLast}>
+            <View>
+              <Text style={styles.label}>
+                HelpLine Number:  <Text>03007644607
+                </Text>
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.container}>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Image src="Assets/logo24.png" style={{ height: 54, width: 180 }} />
+          </View>
+          <View style={styles.infoCol}>
+            <View  >
+              <Text>Consignment Note:</Text>
+              <Text style={styles.infoCol3}>{form.cnNumber}</Text>
+            </View>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Booking Date:</Text>
+            <Text style={styles.value}>{form.date}</Text>
+          </View>
+        </View>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCol}>
+            <Text style={styles.label}>Origin:</Text>
+            <Text style={styles.value}>{form.origin}</Text>
+          </View>
+          <View style={styles.infoColLast}>
+            <Text style={styles.label}>Destination:</Text>
+            <Text style={styles.value}>{form.destination}</Text>
+          </View>
+        </View>
+        <View style={styles.addressSection}>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Shipper:</Text>
+            <View>
+              <Text style={styles.value}>{form.shipperName}</Text>
+              <Text style={styles.value}>{form.trackingId}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.contact}</Text>
+            </View>
+          </View>
+          <View style={styles.addressCol}>
+            <Text style={styles.label}>Consignee:</Text>
+            <View>
+              <Text style={styles.value}>{form.consignee}</Text>
+              <Text style={styles.value}>{form.consigneeAddress}</Text>
+            </View>
+            <View style={styles.addressCALL}>
+              <Text style={styles.value}>{form.consigneeContact}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.detailsRow}>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Piece:</Text>
+            <Text style={styles.value}>{form.pieces}</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Weight:</Text>
+            <Text style={styles.value}>{form.weight}</Text>
+          </View>
+          <View style={styles.detailCol}>
+            <Text style={styles.label}>Description</Text>
+            <Text style={styles.value}>{form.description}</Text>
+          </View>
+          <View style={styles.detailColLast}>
+            <Text style={styles.label}>Cash Collect:</Text>
+            <Text style={styles.value}>Rs.{form.amount}</Text>
+          </View>
+        </View>
+        <View style={styles.detailsRow}>
+          {/* <View style={styles.detailCol}> */}
+          {/* <View style={styles.detailColLast}>
+            <Text style={styles.label}>Remarks:</Text>
+          </View> */}
+          <View style={styles.detailColLast}>
+            <View>
+              <Text style={styles.label}>
+                HelpLine Number:  <Text>03007644607
+                </Text>
+              </Text>
+            </View>
           </View>
         </View>
       </View>
       <View style={styles.container}>
         <View style={styles.infoRow}>
           <View style={styles.infoCol}>
-            <Image src="Assets/logo1.png" style={{ height: 45, width: 180 }} />
+            <Image src="Assets/logo24.png" style={{ height: 54, width: 180 }} />
           </View>
           <View style={styles.infoCol}>
             <View  >
@@ -174,75 +271,22 @@ const QuotationPDF = ({ form }) => (
             <Text style={styles.value}>Rs.{form.amount}</Text>
           </View>
         </View>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.infoRow}>
-          <View style={styles.infoCol}>
-            <Image src="Assets/logo1.png" style={{ height: 45, width: 180 }} />
-          </View>
-          <View style={styles.infoCol}>
-            <View  >
-              <Text>Consignment Note:</Text>
-              <Text style={styles.infoCol3}>{form.cnNumber}</Text>
-            </View>
-          </View>
-          <View style={styles.infoColLast}>
-            <Text style={styles.label}>Booking Date:</Text>
-            <Text style={styles.value}>{form.date}</Text>
-          </View>
-        </View>
-        <View style={styles.infoRow}>
-          <View style={styles.infoCol}>
-            <Text style={styles.label}>Origin:</Text>
-            <Text style={styles.value}>{form.origin}</Text>
-          </View>
-          <View style={styles.infoColLast}>
-            <Text style={styles.label}>Destination:</Text>
-            <Text style={styles.value}>{form.destination}</Text>
-          </View>
-        </View>
-        <View style={styles.addressSection}>
-          <View style={styles.addressCol}>
-            <Text style={styles.label}>Shipper:</Text>
-            <View>
-              <Text style={styles.value}>{form.shipperName}</Text>
-              <Text style={styles.value}>{form.trackingId}</Text>
-            </View>
-            <View style={styles.addressCALL}>
-              <Text style={styles.value}>{form.contact}</Text>
-            </View>
-          </View>
-          <View style={styles.addressCol}>
-            <Text style={styles.label}>Consignee:</Text>
-            <View>
-              <Text style={styles.value}>{form.consignee}</Text>
-              <Text style={styles.value}>{form.consigneeAddress}</Text>
-            </View>
-            <View style={styles.addressCALL}>
-              <Text style={styles.value}>{form.consigneeContact}</Text>
-            </View>
-          </View>
-        </View>
         <View style={styles.detailsRow}>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Piece:</Text>
-            <Text style={styles.value}>{form.pieces}</Text>
-          </View>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Weight:</Text>
-            <Text style={styles.value}>{form.weight}</Text>
-          </View>
-          <View style={styles.detailCol}>
-            <Text style={styles.label}>Description</Text>
-            <Text style={styles.value}>{form.description}</Text>
-          </View>
+          {/* <View style={styles.detailCol}> */}
+          {/* <View style={styles.detailColLast}>
+            <Text style={styles.label}>Remarks:</Text>
+          </View> */}
           <View style={styles.detailColLast}>
-            <Text style={styles.label}>Cash Collect:</Text>
-            <Text style={styles.value}>Rs.{form.amount}</Text>
+            <View>
+              <Text style={styles.label}>
+                HelpLine Number:  <Text>03007644607
+                </Text>
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-     
+
       <View style={styles.terms}>
         <Text style={styles.veiwTitle}>TERMS AND CONDITION</Text>
         <View style={styles.veiwText}>
