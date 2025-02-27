@@ -31,25 +31,6 @@ const Boking = () => {
     const couriersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setCouriers(couriersList);
   };
-  // const handleTrackCourier = async () => {
-  //   setTrackingError(""); // Reset previous errors
-  //   setTrackingData(null); // Clear previous data
-
-  //   try {
-  //     const querySnapshot = await getDocs(collection(fireStore, "shipper"));
-  //     const foundDoc = querySnapshot.docs.find(doc => doc.data().cnNumber === trackingNumber);
-
-  //     if (foundDoc) {
-  //       setTrackingData(foundDoc.data()); // Show the courier data
-  //     } else {
-  //       setTrackingError("No record found for this CN Number.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Firestore Error:", error);
-  //     setTrackingError("Error fetching data. Please try again.");
-  //   }
-  // };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;

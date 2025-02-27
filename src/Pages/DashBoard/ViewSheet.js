@@ -32,10 +32,7 @@ const ViewSheet = () => {
         const shipperQuery = query(collection(fireStore, "shipper"), orderBy('createdAt'));
         const shipperSnapshot = await getDocs(shipperQuery);
         const shipperList = shipperSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        // Merge deliveries and shipper data if needed
         setDeliveries([...deliveriesList, ...shipperList]);
-
       } catch (error) {
         message.error("Failed to fetch data");
       }
@@ -44,10 +41,7 @@ const ViewSheet = () => {
     fetchData();
   }, []);
 
-
-  const handleDeliveryChange = (name, value) => {
-    setDelivery(prev => ({ ...prev, [name]: value }));
-  };
+  const handleDeliveryChange = (name, value) => { setDelivery(prev => ({ ...prev, [name]: value }))};
 
   const viewDeliverySheet = () => {
     if (!delivery.riderId || !delivery.date) {
@@ -94,29 +88,14 @@ const ViewSheet = () => {
       ]);
     }
     while (bodyData.length < 10) {
-      bodyData.push([
-        bodyData.length * 2 + 1,
-        '',
-        '',
-        '',
-        bodyData.length * 2 + 2,
-        '',
-        '',
-        '',
-      ]);
+      bodyData.push([bodyData.length * 2 + 1, '', '', '', bodyData.length * 2 + 2, '', '', ''])
     }
     doc.autoTable({
       head: [["Index", "CN Number / Consignee Name ", "Receiver Name / Signature /Stamp", "", "Index", "CN Number / Consignee Name", "Receiver Name / Signature /Stamp"]],
       body: bodyData,
       startY: 50,
-      styles: {
-        lineColor: [0, 0, 0],
-        lineWidth: 0.3,
-        minCellHeight: 20, // Row height to fill A4 page
-        fontSize: 12,
-      },
-      pageBreak: 'auto',
-      tableWidth: 'auto',
+      styles: { lineColor: [0, 0, 0], lineWidth: 0.3, minCellHeight: 20, fontSize: 12, },
+      pageBreak: 'auto', tableWidth: 'auto',
       margin: { top: 30, bottom: 30 },
     });
     const fileName = `${deliverySheetData[0]?.date}_${deliverySheetData[0]?.riderName}.pdf`;
@@ -160,30 +139,15 @@ const ViewSheet = () => {
               </Select>
 
               <label>Select Date:</label>
-              <Input
-                type="date"
-                name="date"
-                value={delivery.date}
-                onChange={(e) => handleDeliveryChange("date", e.target.value)}
-                style={{ width: "100%", marginBottom: "1rem" }}
-              />
-
+              <Input type="date" name="date" value={delivery.date} onChange={(e) => handleDeliveryChange("date", e.target.value)} style={{ width: "100%", marginBottom: "1rem" }} />
               <Button type="primary" onClick={viewDeliverySheet} style={{ marginBottom: "1rem" }}>
                 View Delivery Sheet
               </Button>
-
               {deliverySheetData.length > 0 ? (
                 <div style={{ textAlign: 'center' }}>
                   <hr />
                   <h2 className="text-center">{deliverySheetData[0]?.riderName}</h2>
-                  <Table
-                    bordered
-                    columns={columns}
-                    dataSource={indexedDeliverySheetData}
-                    rowKey="id"
-                    pagination={false}
-                    className="text-center border-2 h-auto"
-                  />
+                  <Table bordered columns={columns} dataSource={indexedDeliverySheetData} rowKey="id" pagination={false} className="text-center border-2 h-auto" />
                   <Button className="bg-success text-light" onClick={downloadPDFSheet} style={{ marginTop: "1rem" }}>
                     Download as PDF
                   </Button>
@@ -199,4 +163,4 @@ const ViewSheet = () => {
   );
 };
 
-export default ViewSheet;
+export default ViewSheet; 

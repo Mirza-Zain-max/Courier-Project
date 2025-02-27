@@ -242,63 +242,6 @@ const ShowData = () => {
             message.error("Failed to save receiver names!");
         }
     };
-    
-    
-    
-    
-    // const handleSave = async () => {
-    //     if (editRecord) {
-    //         await updateDoc(doc(fireStore, "deliveries", editRecord.id), editedValues);
-    //         fetchDeliveries();
-    //         setIsModalVisible(false);
-    //     }
-    // };
-    // const handleModalOk = async () => {
-    //     try {
-    //         const values = await form.validateFields();
-    //         console.log("Form Values:", values); // Debugging
-    
-    //         if (!editingRecord || !editingRecord.id) {
-    //             message.error("No record selected for updating!");
-    //             return;
-    //         }
-    
-    //         const updateData = {
-    //             receiverName: values.name || "N/A",
-    //             // date: values.date || new Date().toISOString().split("T")[0],
-    //             shipperName : values.shipper || "",
-    //             consigneeName: values.consignee || "N/A",
-    //         };
-    
-    //         const deliveryRef = doc(fireStore, "deliveries", editingRecord.id);
-    //         const shipperRef = doc(fireStore, "shipper", editingRecord.id);
-    
-    //         // Check if documents exist
-    //         const deliveryDocSnap = await getDoc(deliveryRef);
-    //         const shipperDocSnap = await getDoc(shipperRef);
-    
-    //         if (!deliveryDocSnap.exists() && !shipperDocSnap.exists()) {
-    //             message.error("Record does not exist!");
-    //             return;
-    //         }
-    //         // Update both documents if they exist
-    //         const updatePromises = [];
-    //         if (deliveryDocSnap.exists()) updatePromises.push(updateDoc(deliveryRef, updateData));
-    //         if (shipperDocSnap.exists()) updatePromises.push(updateDoc(shipperRef, updateData));
-    
-    //         await Promise.all(updatePromises);
-    
-    //         await fetchDeliveries(); // Refresh data
-    //         setIsModalVisible(false);
-    //         message.success("Record updated successfully!");
-    //     } catch (error) {
-    //         console.error("Error updating record: ", error);
-    //         message.error("Failed to update record!");
-    //     }
-    // };
-    
-    
-
     const handleModalOk = async () => {
         try {
             const values = await form.validateFields();
