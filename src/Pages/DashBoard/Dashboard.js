@@ -8,7 +8,7 @@ const Dashboard = () => {
   const { Title } = Typography;
   const navigate = useNavigate();
 
-  window.alert("Dear Amjad sb :  This is a reminder that the payment for your software license is now overdue. As per the terms of service, if the outstanding payment is not received within 7 days, your access to the software will be restricted, and the software will be temporarily disabled.Please ensure that the payment is made promptly to avoid any disruption in service. We value your business and are here to assist you if you have any questions or need support regarding the payment process.Thank you for your attention to this matter.")
+  window.alert("Dear Amjad sb, Thank you for your previous payment. This is a reminder that your last installment is still due. Kindly complete the payment within 5 days to avoid service disruption. If the payment is not received, your software access will be temporarily blocked. Please ensure timely payment. Let us know if you need any assistance.");
  
   return (
     <>
