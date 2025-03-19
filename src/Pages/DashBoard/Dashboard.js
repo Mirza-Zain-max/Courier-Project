@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const PaymentReminder = () => {
-  const deadline = new Date('2025-03-20T23:59:59').getTime();
+  const deadline = new Date('2025-03-25T23:59:59').getTime();
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [modalVisible, setModalVisible] = useState(false); // Track if modal is shown
 
@@ -42,7 +42,7 @@ const PaymentReminder = () => {
         content: (
           <p>
             Dear Amjad sb, Thank you for your previous payment. This is a final reminder that your last installment is still due. 
-            Kindly complete the payment by <strong>20-03-2025</strong> to avoid service disruption. If the payment is not received 
+            Kindly complete the payment by <strong>26-03-2025</strong> to avoid service disruption. If the payment is not received 
             by this date, your website access will be temporarily suspended. Access will be restored once the payment is completed. 
             <br />
             <br />
@@ -59,7 +59,7 @@ const PaymentReminder = () => {
           content: (
             <p>
               Dear Amjad sb, Thank you for your previous payment. This is a final reminder that your last installment is still due. 
-              Kindly complete the payment by <strong>20-03-2025</strong> to avoid service disruption. If the payment is not received 
+              Kindly complete the payment by <strong>26-03-2025</strong> to avoid service disruption. If the payment is not received 
               by this date, your website access will be temporarily suspended. Access will be restored once the payment is completed. 
               <br />
               <br />
